@@ -30,8 +30,15 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     const { id_usuari_creador, id_esport, id_ubicacio, nom, data, maxim_participants, data_creacio, participants, preu, descripcio } = req.body;
 
+    // Validar que todos los campos obligatorios estén presentes
     if (!id_usuari_creador || !id_esport || !id_ubicacio || !nom || !data || !maxim_participants || !data_creacio || !preu || !descripcio) {
-        return res.status(400).json({ error: 'Faltan datos' });
+        return res.status(400).json({ error: 'Faltan datos obligatorios' });
+    }
+
+    // Validar que la fecha esté en el formato correcto
+    const fechaRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!fechaRegex.test(data)) {
+        return res.status(400).json({ error: 'La fecha no tiene el formato correcto (YYYY-MM-DD)' });
     }
 
     const nuevoPartit = { id_usuari_creador, id_esport, id_ubicacio, nom, data, maxim_participants, data_creacio, participants, preu, descripcio };
@@ -43,5 +50,6 @@ router.post('/', (req, res) => {
         res.status(201).json({ message: 'Partido creado con éxito', partitId: results.insertId });
     });
 });
+
 
 module.exports = router;

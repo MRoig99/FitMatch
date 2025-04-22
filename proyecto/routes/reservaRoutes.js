@@ -30,8 +30,15 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     const { id_usuari, id_partit, data_reserva } = req.body;
 
+    // Validar que todos los campos obligatorios estén presentes
     if (!id_usuari || !id_partit || !data_reserva) {
-        return res.status(400).json({ error: 'Faltan datos' });
+        return res.status(400).json({ error: 'Faltan datos obligatorios' });
+    }
+
+    // Validar que la fecha esté en el formato correcto
+    const fechaRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!fechaRegex.test(data_reserva)) {
+        return res.status(400).json({ error: 'La fecha de reserva no tiene el formato correcto (YYYY-MM-DD)' });
     }
 
     const nuevaReserva = { id_usuari, id_partit, data_reserva };
@@ -43,5 +50,6 @@ router.post('/', (req, res) => {
         res.status(201).json({ message: 'Reserva creada con éxito', reservaId: results.insertId });
     });
 });
+
 
 module.exports = router;

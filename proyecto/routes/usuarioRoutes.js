@@ -30,8 +30,20 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     const { nom, cognom, edat, contrasenya, correu_electronic } = req.body;
 
+    // Validar que todos los campos sean proporcionados
     if (!nom || !cognom || !edat || !contrasenya || !correu_electronic) {
-        return res.status(400).json({ error: 'Faltan datos' });
+        return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+    }
+
+    // Validar que la edad sea un número y esté en un rango razonable
+    if (isNaN(edat) || edat < 18 || edat > 120) {
+        return res.status(400).json({ error: 'La edad debe ser un número válido entre 18 y 120' });
+    }
+
+    // Validar el formato del correo electrónico
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(correu_electronic)) {
+        return res.status(400).json({ error: 'El correo electrónico no tiene un formato válido' });
     }
 
     const nuevoUsuario = { nom, cognom, edat, contrasenya, correu_electronic };
@@ -43,5 +55,6 @@ router.post('/', (req, res) => {
         res.status(201).json({ message: 'Usuario creado con éxito', usuarioId: results.insertId });
     });
 });
+
 
 module.exports = router;

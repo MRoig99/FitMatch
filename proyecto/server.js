@@ -37,3 +37,10 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
+
+// Middleware para manejar errores no capturados
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Algo salió mal, por favor intenta de nuevo más tarde.' });
+});
+
