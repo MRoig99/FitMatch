@@ -11,6 +11,25 @@
   color: black !important;
 }
 
+.logoFooter{
+  height: 10em;
+}
+
+.contenedorPrincipal{
+  margin-top: 6.5em;
+}
+
+.tamanyInici{
+  width: 34em;
+  height: 22em;
+}
+
+.tamanyFotosCarrusel{
+  width: 70em;
+  height: 35em;
+  
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

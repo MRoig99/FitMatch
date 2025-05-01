@@ -22,8 +22,7 @@ const Header = () => {
         </Navbar.Brand>
         <Navbar.Brand className='d-flex'>
             <button className='bg-primary rounded-2 fs-6'>Descarregar</button>
-        </Navbar.Brand>
-        
+        </Navbar.Brand>    
       </Container>
     </Navbar>
   );

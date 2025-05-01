@@ -1,32 +1,50 @@
 // src/components/Header.jsx
 import React from 'react';
-import { Navbar, Nav, Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // Para navegación interna
+import { Container, Row, Col } from 'react-bootstrap';
 import logo from '../assets/logo.png';
+import '../App.css';
 
 
 const Header = () => {
   return (
-    <Navbar bg="dark" variant="dark" fixed="bottom">
-      <Container fluid>
-        <Navbar.Brand className='d-flex'>
-            <img src={logo} alt="FitMatch Logo"/>
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="ms-auto ">
-                    <Nav.Link className='text-white fs-6' as={Link} to="/">Inici</Nav.Link>
-                    <Nav.Link className='text-white fs-6' as={Link} to="/producte">Producte</Nav.Link>
-                    <Nav.Link className='text-white fs-6' as={Link} to="/contact">Resenyes</Nav.Link>
-                    <Nav.Link className='text-white fs-6' as={Link} to="/login">Sobre nosaltres</Nav.Link>
-                    <Nav.Link className='text-white fs-6' as={Link} to="/app/dashboard">Contacte</Nav.Link>
-                </Nav>
-            </Navbar.Collapse>
-        </Navbar.Brand>
-        <Navbar.Brand className='d-flex'>
-            <button className='bg-primary rounded-2 fs-6'>Descarregar</button>
-        </Navbar.Brand>
-        
+    
+      <Container fluid className='bg-dark text-white'>
+        <Row className='pt-4'>
+          <Col className='m-0 mt-4 p-0'>
+            <div className='text-center d-flex justify-content-center'>
+              <div className=''>
+                <a href="#">
+                  <img className='logoFooter' src={logo} alt="FitMatch Logo"/>
+                </a>          
+              </div>       
+            </div>
+          </Col>
+          <Col>
+            <div className='text-center pb-4'>
+                <h5 className='text-white'>Contacta'ns</h5>
+            </div>
+            <div className='d-flex justify-content-center'>
+              <div className=' ps-4'>
+                <p>+34 685647362</p>
+                <p>P/ Vicent García Nº 34</p>
+                <p>fitmatch@gmail.com</p>
+              </div>         
+            </div>
+          </Col>
+          <Col>
+            <div className='text-center pb-4'>
+                <h5 className='text-white'>Legal</h5>
+            </div>
+            <div className='d-flex justify-content-center '>
+              <div className=' ps-4 d-flex flex-column gap-3'>
+                <a className='text-decoration-none text-white' href='#'>Política de cookies</a>
+                <a className='text-decoration-none text-white' href='#'>Condicions d'ús</a>
+                <a className='text-decoration-none text-white' href='#'>Política de privacitat</a>
+              </div>         
+            </div>
+          </Col>
+        </Row>   
       </Container>
-    </Navbar>
   );
 };
 

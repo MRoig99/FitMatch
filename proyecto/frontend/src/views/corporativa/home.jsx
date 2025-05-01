@@ -1,53 +1,88 @@
 import { useState } from 'react'
 import '../../App.css'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
+import { Container, Row, Col, Button, Carousel } from 'react-bootstrap';
+
 import Header from '../../components/header';
 import Footer from '../../components/footer'
-
+import Futbol from '../../assets/futbol.jpg'
+import Basket from '../../assets/basket.jpg'
+import Paddel from '../../assets/paddel.jpg'
+import Tenis from '../../assets/tenis.jpg'
+import fons from '../../assets/fotoPrincipal.png'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-    <Container fluid className='fons'>
-        <Row className="d-flex align-items-center justify-content-center vh-100">
-          <Col>
-            <div className='d-flex justify-content-center'>
-            <Header /> 
-              <Card className='rounded-4 formulari' style={{ width: '25rem' }}>
-                <Card.Body>
-                  <Card.Title className='text-center fs-2'>FitMatch</Card.Title>
-                  <div>
-                    <Card.Text>
-                    <Form>
-                      <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
-                      </Form.Group>
+    <>   
+    <Header />  
 
-                      <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
-                      </Form.Group>
-                      <div className='d-flex justify-content-center'>
-                      </div>     
-                      <a href="#" className='d-flex justify-content-center pt-2 text-black'>No tens compte? Registrat</a> 
-                      </Form>
-                    </Card.Text>
-                  </div>
-                </Card.Body>
-              </Card>
+    <Container className='fons contenedorPrincipal'>    
+      <Row className="d-flex">        
+        <Col className='p-0'>
+          <div className='pt-5 me-2 d-flex justify-content-end'>
+            <div className='bg-black p-5 tamanyInici rounded-4'>
+              <h6 className='text-white lh-lg pb-5'>
+                Descobreix partits a prop teu, crea esdeveniments esportius personalitzats i connecta amb altres apassionats de l'esport
+                de tots els nivells. No importa si ets un expert o estàs començant, amb FitMatch sempre trobaràs un lloc per jugar.
+              </h6>
+              <div className='pt-5'>
+                <Button className='boto mb-4' variant="secondary" type="submit">
+                  Comença ara!
+                </Button>
+              </div>
+            </div>         
+          </div>
+        </Col>
+        <Col className='p-0'>
+          <div className='ps-4 pt-5'>
+            <div>
+              <img className='rounded-4 tamanyInici' src={fons} alt="FitMatch Logo"/>
             </div>
-            <Footer /> 
-          </Col>
-        </Row>
-      </Container> 
+          </div>
+        </Col>       
+      </Row>
+      <Row>
+        <Col>
+          <h2 className='text-center py-5'>Esports Destacats</h2>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <div className='d-flex justify-content-center align-items-center'>
+            <Carousel className='d-flex justify-content-center'>
+              <Carousel.Item>
+                <img className='rounded-4 tamanyFotosCarrusel' src={Futbol} alt="Grup de xiques celebrant un gol de futbol"/>
+                <Carousel.Caption>
+                  <h3>Futbol</h3>
+                </Carousel.Caption>
+              </Carousel.Item>
+              <Carousel.Item>
+                <img className='rounded-4 tamanyFotosCarrusel' src={Basket} alt="Xics fent un servei de bàsquet"/>
+                <Carousel.Caption>
+                  <h3>Bàsquet</h3>
+                </Carousel.Caption>
+              </Carousel.Item>
+              <Carousel.Item>
+                <img className='rounded-4 tamanyFotosCarrusel' src={Paddel} alt="Xic fent un remat de pàdel"/>
+                <Carousel.Caption>
+                  <h3>Pàdel</h3>
+                </Carousel.Caption>
+              </Carousel.Item>
+              <Carousel.Item>
+                <img className='rounded-4 tamanyFotosCarrusel' src={Tenis} alt="Persona fent un servei de tenis"/>
+                <Carousel.Caption>
+                  <h3>Tenis</h3>
+                </Carousel.Caption>
+              </Carousel.Item>
+            </Carousel>
+          </div>
+        </Col>
+      </Row>
+    </Container> 
+
+      
+      
     </>
   )
 }
