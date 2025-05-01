@@ -26,8 +26,7 @@
 
 .tamanyFotosCarrusel{
   width: 70em;
-  height: 35em;
-  
+  height: 35em; 
 }
 
 @keyframes logo-spin {

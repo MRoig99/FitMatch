@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import '../../App.css'
-import { Container, Row, Col, Button, Carousel } from 'react-bootstrap';
+import { Container, Row, Col, Button, Carousel, Card } from 'react-bootstrap';
 
 import Header from '../../components/header';
 import Footer from '../../components/footer'
@@ -9,6 +9,10 @@ import Basket from '../../assets/basket.jpg'
 import Paddel from '../../assets/paddel.jpg'
 import Tenis from '../../assets/tenis.jpg'
 import fons from '../../assets/fotoPrincipal.png'
+import facil from '../../assets/facil.png'
+import tots from '../../assets/perTots.png'
+import gestio from '../../assets/gestio total.jpg'
+import nous from '../../assets/Esports nous.jpg'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -79,9 +83,80 @@ function App() {
           </div>
         </Col>
       </Row>
+      <Row>
+        <Col>
+          <h2 className='text-center py-5'>Beneficis d'utilitzar FitMatch</h2>
+        </Col>
+      </Row>
+      <Row>
+        <Col className='d-flex justify-content-center'>
+          <div>
+            <Card className='p-0 border border-black' style={{ width: '18rem' }}>
+              <Card.Img variant="top" src={facil} />
+              <Card.Body>
+                <Card.Title className='text-center'>Fàcil i ràpid</Card.Title>
+                <Card.Text className='text-center px-4'>
+                  Crea partits, fes reserves i porta el teu historial esportiu.
+                </Card.Text>
+              </Card.Body>
+            </Card>     
+          </div>    
+        </Col>
+        <Col className='d-flex justify-content-center'>
+          <div>
+            <Card className='p-0 border border-black' style={{ width: '18rem' }}>
+              <Card.Img variant="top" src={tots} />
+              <Card.Body>
+                <Card.Title className='text-center'>Per a tots</Card.Title>
+                <Card.Text className='text-center px-4'>
+                  Crea partits, fes reserves i porta el teu historial esportiu.
+                </Card.Text>
+              </Card.Body>
+            </Card>     
+          </div> 
+        </Col>
+        <Col className='d-flex justify-content-center'>
+          <div>
+            <Card className='p-0 border border-black' style={{ width: '18rem' }}>
+              <Card.Img variant="top" src={gestio} />
+              <Card.Body>
+                <Card.Title className='text-center'>Gestió total</Card.Title>
+                <Card.Text className='text-center px-4'>
+                  Crea partits, fes reserves i porta el teu historial esportiu.
+                </Card.Text>
+              </Card.Body>
+            </Card>    
+          </div> 
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+          <h2 className='text-center py-5'>Descobreix esports nous</h2>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col className='p-0'>
+          <div className='me-2 d-flex justify-content-end'>
+            <div className='bg-black p-5 tamanyInici rounded-4 px-5'>
+              <h6 className='text-white lh-lg px-4'>
+              A FitMatch, no només podràs unir-te als teus esports preferits, sinó també descobrir noves disciplines que podrien apassionar-te. Amb la nostra plataforma, tindràs l’oportunitat de connectar amb altres persones que comparteixen els teus interessos, ja sigui per trobar companys d’entrenament, formar equips o simplement gaudir d’una activitat física en bona companyia. 
+              </h6>
+            </div>         
+          </div>
+        </Col>
+        <Col>
+          <div className='pb-5'>
+            <div>
+              <img className='rounded-4 tamanyInici' src={nous} alt="FitMatch Logo"/>
+            </div>
+          </div>
+        </Col>
+      </Row>
     </Container> 
 
-      
+    <Footer />
       
     </>
   )

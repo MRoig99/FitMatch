@@ -23,7 +23,7 @@ const Header = () => {
             <div className='text-center pb-4'>
                 <h5 className='text-white'>Contacta'ns</h5>
             </div>
-            <div className='d-flex justify-content-center'>
+            <div className='d-flex justify-content-center ps-4'>
               <div className=' ps-4'>
                 <p>+34 685647362</p>
                 <p>P/ Vicent García Nº 34</p>
@@ -35,8 +35,8 @@ const Header = () => {
             <div className='text-center pb-4'>
                 <h5 className='text-white'>Legal</h5>
             </div>
-            <div className='d-flex justify-content-center '>
-              <div className=' ps-4 d-flex flex-column gap-3'>
+            <div className='d-flex justify-content-center ps-5'>
+              <div className=' ps-5 d-flex flex-column gap-3'>
                 <a className='text-decoration-none text-white' href='#'>Política de cookies</a>
                 <a className='text-decoration-none text-white' href='#'>Condicions d'ús</a>
                 <a className='text-decoration-none text-white' href='#'>Política de privacitat</a>
