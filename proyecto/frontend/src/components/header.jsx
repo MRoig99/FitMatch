@@ -1,28 +1,29 @@
 // src/components/Header.jsx
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // Para navegación interna
 import logo from '../assets/logo.png';
 
 const Header = () => {
   return (
-    <Navbar bg="dark" variant="dark" fixed="top">
-      <Container fluid>
-        <Navbar.Brand className='d-flex'>
-            <img src={logo} alt="FitMatch Logo"/>
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="ms-auto ">
-                    <Nav.Link className='text-white fs-6' as={Link} to="/">Inici</Nav.Link>
-                    <Nav.Link className='text-white fs-6' as={Link} to="/producte">Producte</Nav.Link>
-                    <Nav.Link className='text-white fs-6' as={Link} to="/contact">Resenyes</Nav.Link>
-                    <Nav.Link className='text-white fs-6' as={Link} to="/login">Sobre nosaltres</Nav.Link>
-                    <Nav.Link className='text-white fs-6' as={Link} to="/app/dashboard">Contacte</Nav.Link>
-                </Nav>
-            </Navbar.Collapse>
+    <Navbar expand="lg" className="bg-body-tertiary header py-0">
+      <Container fluid className='headerifooter'>
+        <Navbar.Brand href="#home">
+          <img src={logo} alt="Logo de fitmach" />
         </Navbar.Brand>
-        <Navbar.Brand className='d-flex'>
-            <button className='bg-primary rounded-2 fs-6'>Descarregar</button>
-        </Navbar.Brand>    
+        <Navbar.Toggle className='colorHamburguesa' aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto ">        
+              <Nav.Link className='colorText' href="#">Inici</Nav.Link>
+              <Nav.Link className='colorText' href="#">Producte</Nav.Link>
+              <Nav.Link className='colorText' href="#">Resenyes</Nav.Link>
+              <Nav.Link className='colorText' href="#">Sobre Nosaltres</Nav.Link>
+              <Nav.Link className='colorText' href="#">Contacta</Nav.Link>
+          </Nav>
+          <div className="d-flex justify-content-lg-end mt-2 mt-lg-0">
+            <Button className='boto'>Descarrega</Button>
+          </div>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

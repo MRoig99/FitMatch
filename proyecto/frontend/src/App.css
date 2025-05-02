@@ -1,14 +1,31 @@
 .formulari{
-  background-color: #00ABE4 !important; 
+  background-color: #213448 !important; 
 }
 
 .fons{
   background-color: #FFFFFF;
 }
 
+.headerifooter{
+  background-color: #000000 !important;
+}
+
+.colorText{
+  color: #ECEFCA !important;
+}
+
+.colorHamburguesa{
+  background-color: #ECEFCA !important;
+}
+
+.fondoTextos{
+  background-color: #213448;
+  color: #ECEFCA !important;
+}
+
 .boto{
-  background-color: #E9F1FA !important;
-  color: black !important;
+  background-color: #547792 !important;
+  color: #ECEFCA !important;
 }
 
 .logoFooter{
@@ -16,7 +33,7 @@
 }
 
 .contenedorPrincipal{
-  margin-top: 6.5em;
+  margin-top: 5.6em;
 }
 
 .tamanyInici{
@@ -28,6 +45,14 @@
   width: 70em;
   height: 35em; 
 }
+
+@media (max-width: 575.98px) { 
+  .tamanyInici{
+    width: 25em;
+  }
+
+}
+
 
 @keyframes logo-spin {
   from {

@@ -23,14 +23,14 @@ function App() {
 
     <Container className='fons contenedorPrincipal'>    
       <Row className="d-flex">        
-        <Col className='p-0'>
-          <div className='pt-5 me-2 d-flex justify-content-end'>
-            <div className='bg-black p-5 tamanyInici rounded-4'>
-              <h6 className='text-white lh-lg pb-5'>
+        <Col xs="12" md="6"  className='p-lg-0'>
+          <div className='pt-5 me-lg-2 d-flex justify-content-end'>
+            <div className='p-4 p-lg-5 tamanyInici rounded-4 fondoTextos'>
+              <h6 className='lh-lg pb-lg-5'>
                 Descobreix partits a prop teu, crea esdeveniments esportius personalitzats i connecta amb altres apassionats de l'esport
                 de tots els nivells. No importa si ets un expert o estàs començant, amb FitMatch sempre trobaràs un lloc per jugar.
               </h6>
-              <div className='pt-5'>
+              <div className='pt-4 pt-lg-5'>
                 <Button className='boto mb-4' variant="secondary" type="submit">
                   Comença ara!
                 </Button>
@@ -39,7 +39,7 @@ function App() {
           </div>
         </Col>
         <Col className='p-0'>
-          <div className='ps-4 pt-5'>
+          <div className='ps-3 ps-lg-4 pt-5'>
             <div>
               <img className='rounded-4 tamanyInici' src={fons} alt="FitMatch Logo"/>
             </div>
@@ -53,8 +53,8 @@ function App() {
       </Row>
       <Row>
         <Col>
-          <div className='d-flex justify-content-center align-items-center'>
-            <Carousel className='d-flex justify-content-center'>
+          <div className='d-flex justify-content-center align-items-center '>
+            <Carousel className='d-flex justify-content-center '>
               <Carousel.Item>
                 <img className='rounded-4 tamanyFotosCarrusel' src={Futbol} alt="Grup de xiques celebrant un gol de futbol"/>
                 <Carousel.Caption>
@@ -91,9 +91,9 @@ function App() {
       <Row>
         <Col className='d-flex justify-content-center'>
           <div>
-            <Card className='p-0 border border-black' style={{ width: '18rem' }}>
+            <Card className='p-0 border border-black fondoTextos ' style={{ width: '18rem' }}>
               <Card.Img variant="top" src={facil} />
-              <Card.Body>
+              <Card.Body className='fondoTextos'>
                 <Card.Title className='text-center'>Fàcil i ràpid</Card.Title>
                 <Card.Text className='text-center px-4'>
                   Crea partits, fes reserves i porta el teu historial esportiu.
@@ -106,7 +106,7 @@ function App() {
           <div>
             <Card className='p-0 border border-black' style={{ width: '18rem' }}>
               <Card.Img variant="top" src={tots} />
-              <Card.Body>
+              <Card.Body className='fondoTextos'>
                 <Card.Title className='text-center'>Per a tots</Card.Title>
                 <Card.Text className='text-center px-4'>
                   Crea partits, fes reserves i porta el teu historial esportiu.
@@ -119,7 +119,7 @@ function App() {
           <div>
             <Card className='p-0 border border-black' style={{ width: '18rem' }}>
               <Card.Img variant="top" src={gestio} />
-              <Card.Body>
+              <Card.Body className='fondoTextos'>
                 <Card.Title className='text-center'>Gestió total</Card.Title>
                 <Card.Text className='text-center px-4'>
                   Crea partits, fes reserves i porta el teu historial esportiu.
@@ -139,8 +139,8 @@ function App() {
       <Row>
         <Col className='p-0'>
           <div className='me-2 d-flex justify-content-end'>
-            <div className='bg-black p-5 tamanyInici rounded-4 px-5'>
-              <h6 className='text-white lh-lg px-4'>
+            <div className='p-5 tamanyInici rounded-4 px-5 fondoTextos'>
+              <h6 className='lh-lg px-4'>
               A FitMatch, no només podràs unir-te als teus esports preferits, sinó també descobrir noves disciplines que podrien apassionar-te. Amb la nostra plataforma, tindràs l’oportunitat de connectar amb altres persones que comparteixen els teus interessos, ja sigui per trobar companys d’entrenament, formar equips o simplement gaudir d’una activitat física en bona companyia. 
               </h6>
             </div>         

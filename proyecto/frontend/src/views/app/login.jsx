@@ -17,7 +17,7 @@ function App() {
         <Row className="d-flex align-items-center justify-content-center vh-100">
           <Col>
             <div className='d-flex justify-content-center'>
-              <Card className='rounded-4 formulari' style={{ width: '25rem' }}>
+              <Card className='rounded-4 formulari colorText' style={{ width: '25rem' }}>
                 <Card.Body>
                   <Card.Title className='text-center fs-2'>FitMatch</Card.Title>
                   <div>
@@ -37,7 +37,7 @@ function App() {
                           Inicia Sessió
                         </Button>
                       </div>     
-                      <a href="#" className='d-flex justify-content-center pt-2 text-black'>No tens compte? Registrat</a> 
+                      <a href="#" className='d-flex justify-content-center pt-2 colorText'>No tens compte? Registrat</a> 
                       </Form>
                     </Card.Text>
                   </div>

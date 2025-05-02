@@ -8,7 +8,7 @@ import '../App.css';
 const Header = () => {
   return (
     
-      <Container fluid className='bg-dark text-white'>
+      <Container fluid className='headerifooter text-white'>
         <Row className='pt-4'>
           <Col className='m-0 mt-4 p-0'>
             <div className='text-center d-flex justify-content-center'>
@@ -21,10 +21,10 @@ const Header = () => {
           </Col>
           <Col>
             <div className='text-center pb-4'>
-                <h5 className='text-white'>Contacta'ns</h5>
+                <h5 className='colorText'>Contacta'ns</h5>
             </div>
             <div className='d-flex justify-content-center ps-4'>
-              <div className=' ps-4'>
+              <div className='colorText ps-4'>
                 <p>+34 685647362</p>
                 <p>P/ Vicent García Nº 34</p>
                 <p>fitmatch@gmail.com</p>
@@ -33,13 +33,13 @@ const Header = () => {
           </Col>
           <Col>
             <div className='text-center pb-4'>
-                <h5 className='text-white'>Legal</h5>
+                <h5 className='colorText'>Legal</h5>
             </div>
             <div className='d-flex justify-content-center ps-5'>
               <div className=' ps-5 d-flex flex-column gap-3'>
-                <a className='text-decoration-none text-white' href='#'>Política de cookies</a>
-                <a className='text-decoration-none text-white' href='#'>Condicions d'ús</a>
-                <a className='text-decoration-none text-white' href='#'>Política de privacitat</a>
+                <a className='text-decoration-none colorText' href='#'>Política de cookies</a>
+                <a className='text-decoration-none colorText' href='#'>Condicions d'ús</a>
+                <a className='text-decoration-none colorText' href='#'>Política de privacitat</a>
               </div>         
             </div>
           </Col>
