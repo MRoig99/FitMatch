@@ -21,7 +21,7 @@ const Header = () => {
               <Nav.Link className='colorText' href="#">Contacta</Nav.Link>
           </Nav>
           <div className="d-flex justify-content-lg-end mt-2 mt-lg-0">
-            <Button className='boto'>Descarrega</Button>
+            <Button className='boto mb-4 mb-md-0'>Descarrega</Button>
           </div>
         </Navbar.Collapse>
       </Container>

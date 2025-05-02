@@ -33,7 +33,7 @@ function App() {
                         <Form.Control type="password" placeholder="Password" />
                       </Form.Group>
                       <div className='d-flex justify-content-center'>
-                        <Button className='boto' variant="primary" type="submit">
+                        <Button className='boto mt-3' variant="primary" type="submit">
                           Inicia Sessió
                         </Button>
                       </div>     

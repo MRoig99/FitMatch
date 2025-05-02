@@ -10,7 +10,7 @@ const Header = () => {
     
       <Container fluid className='headerifooter text-white'>
         <Row className='pt-4'>
-          <Col className='m-0 mt-4 p-0'>
+          <Col md="4" className='m-0 mt-4 p-0'>
             <div className='text-center d-flex justify-content-center'>
               <div className=''>
                 <a href="#">
@@ -19,24 +19,24 @@ const Header = () => {
               </div>       
             </div>
           </Col>
-          <Col>
+          <Col md="4">
             <div className='text-center pb-4'>
                 <h5 className='colorText'>Contacta'ns</h5>
             </div>
-            <div className='d-flex justify-content-center ps-4'>
-              <div className='colorText ps-4'>
+            <div className='d-flex justify-content-center ps-md-4'>
+              <div className='colorText ps-md-4 text-center text-md-start'>
                 <p>+34 685647362</p>
                 <p>P/ Vicent García Nº 34</p>
                 <p>fitmatch@gmail.com</p>
               </div>         
             </div>
           </Col>
-          <Col>
+          <Col md="4">
             <div className='text-center pb-4'>
                 <h5 className='colorText'>Legal</h5>
             </div>
-            <div className='d-flex justify-content-center ps-5'>
-              <div className=' ps-5 d-flex flex-column gap-3'>
+            <div className='d-flex justify-content-center ps-md-5 pb-5 pb-md-0'>
+              <div className='text-center text-md-start ps-md-5 d-flex flex-column gap-3'>
                 <a className='text-decoration-none colorText' href='#'>Política de cookies</a>
                 <a className='text-decoration-none colorText' href='#'>Condicions d'ús</a>
                 <a className='text-decoration-none colorText' href='#'>Política de privacitat</a>
