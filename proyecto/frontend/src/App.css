@@ -16,15 +16,13 @@
 
 .menuLateral{
   height: 100vh; 
-  display: flex;
+ 
   flex-direction: column; 
-  
 }
 
 .elementoLista{
   cursor: pointer;
   height: 3.5em;
-  display: flex;
 }
 
 .elementoLista:hover{
