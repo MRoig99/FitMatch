@@ -6,6 +6,14 @@
   background-color: #FFFFFF;
 }
 
+.fonsIniciSessio{
+  background-image: url('assets/fotoFondoInicioSesion.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
 .headerifooter{
   background-color: #000000 !important;
 }
@@ -36,8 +44,13 @@
   background-color: #000000;
 }
 
+.logo{
+  height: 4em;
+  padding-left: 1em;
+}
+
 .logoFooter{
-  height: 10em;
+  height: 7em;
 }
 
 .contenedorPrincipal{

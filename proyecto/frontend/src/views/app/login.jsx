@@ -13,13 +13,13 @@ function App() {
 
   return (
     <>
-    <Container fluid className='fons'>
+    <Container fluid className='fonsIniciSessio'>
         <Row className="d-flex align-items-center justify-content-center vh-100">
           <Col>
             <div className='d-flex justify-content-center'>
               <Card className='rounded-4 formulari colorText' style={{ width: '25rem' }}>
                 <Card.Body>
-                  <Card.Title className='text-center fs-2'>FitMatch</Card.Title>
+                  <Card.Title className='text-center fs-2'>Inicia Sessió</Card.Title>
                   <div>
                     <Card.Text>
                     <Form>

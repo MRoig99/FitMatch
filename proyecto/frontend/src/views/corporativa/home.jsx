@@ -24,7 +24,7 @@ function App() {
     <Container className='fons contenedorPrincipal'>    
       <Row className="d-flex">        
         <Col xs="12" md="6"  className='p-lg-0'>
-          <div className='pt-5 me-lg-2 d-flex justify-content-end'>
+          <div className='me-lg-2 d-flex justify-content-end'>
             <div className='p-4 p-lg-5 tamanyInici rounded-4 fondoTextos'>
               <h6 className='lh-lg pb-lg-5'>
                 Descobreix partits a prop teu, crea esdeveniments esportius personalitzats i connecta amb altres apassionats de l'esport
@@ -39,7 +39,7 @@ function App() {
           </div>
         </Col>
         <Col className='p-0'>
-          <div className='ps-3 ps-lg-4 pt-5'>
+          <div className='ps-3 ps-lg-4'>
             <div>
               <img className='rounded-4 tamanyFotos' src={fons} alt="FitMatch Logo"/>
             </div>

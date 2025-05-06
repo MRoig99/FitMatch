@@ -9,7 +9,7 @@ const Header = () => {
     <Navbar expand="lg" className="bg-body-tertiary header py-0">
       <Container fluid className='headerifooter'>
         <Navbar.Brand href="#home">
-          <img src={logo} alt="Logo de fitmach" />
+          <img src={logo} className='logo' alt="Logo de fitmach" />
         </Navbar.Brand>
         <Navbar.Toggle className='colorHamburguesa' aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
