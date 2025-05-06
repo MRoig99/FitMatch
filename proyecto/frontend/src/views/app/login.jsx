@@ -117,6 +117,7 @@ function App() {
       axios.post('http://localhost:3000/usuarios/login', credentials)
         .then((response) => {
           console.log("Sessió iniciada:", response.data);
+          localStorage.setItem('usuari', JSON.stringify(response.data.usuari));
           navigate('/busca'); 
           setLoginErrors({});
           setLoginGeneralError('');

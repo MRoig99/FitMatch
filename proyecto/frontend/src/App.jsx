@@ -3,6 +3,7 @@ import Header from './components/header';
 import Login from './views/app/login';  // Importar desde la carpeta 'views'
 import Inici from './views/app/inici'; // Importar desde la carpeta 'views'
 import Home from './views/corporativa/home';  // Importar desde la carpeta 'views'
+import RutaProtegida from './components/rutaProtegida';
 
 
 function App() {
@@ -11,7 +12,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/busca" element={<Inici />} />
+        <Route
+          path="/busca"
+          element={
+            <RutaProtegida>
+              <Inici />
+            </RutaProtegida>
+          }
+        />
       </Routes>
     </Router>
   );
