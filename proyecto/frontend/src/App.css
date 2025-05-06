@@ -1,4 +1,4 @@
-.formulari{
+.colorPrincipal{
   background-color: #213448 !important; 
 }
 
@@ -12,6 +12,23 @@
   background-position: center;
   background-repeat: no-repeat;
   height: 100vh;
+}
+
+.menuLateral{
+  height: 100vh; 
+  display: flex;
+  flex-direction: column; 
+  
+}
+
+.elementoLista{
+  cursor: pointer;
+  height: 3.5em;
+  display: flex;
+}
+
+.elementoLista:hover{
+  background-color: #cacaca !important;
 }
 
 .headerifooter{
