@@ -56,5 +56,36 @@ router.post('/', (req, res) => {
     });
 });
 
+router.post('/login', (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Tots els camps són obligatoris' });
+    }
+
+    Usuario.findByEmail(email, (err, usuario) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        if (!usuario) {
+            return res.status(401).json({ error: 'Usuari no trobat' });
+        }
+
+        if (usuario.contrasenya !== password) {
+            return res.status(401).json({ error: 'Contrasenya incorrecta' });
+        }
+
+        res.json({
+            message: 'Login correcte',
+            usuari: {
+                id: usuario.id,
+                nom: usuario.nom,
+                email: usuario.correu_electronic
+            }
+        });
+    });
+});
+
 
 module.exports = router;

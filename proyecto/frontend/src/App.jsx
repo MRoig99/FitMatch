@@ -1,7 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/header';
 import Login from './views/app/login';  // Importar desde la carpeta 'views'
+import Inici from './views/app/inici'; // Importar desde la carpeta 'views'
 import Home from './views/corporativa/home';  // Importar desde la carpeta 'views'
+
 
 function App() {
   return (
@@ -9,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/busca" element={<Inici />} />
       </Routes>
     </Router>
   );

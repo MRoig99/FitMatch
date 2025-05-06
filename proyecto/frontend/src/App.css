@@ -87,6 +87,25 @@
   height: 35em; 
 }
 
+.modal-no-bg {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+.modal-dialog-centered-custom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.modal-backdrop-custom {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+
 @media (max-width: 575.98px) { 
   .tamanyInici{
     width: 25em;

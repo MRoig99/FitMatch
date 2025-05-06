@@ -32,6 +32,20 @@ const Usuario = {
             }
             callback(null, results);
         });
+    },
+
+    // Método para buscar un usuario por su email
+    findByEmail: (email, callback) => {
+        const query = 'SELECT * FROM usuarios WHERE correu_electronic = ? LIMIT 1';
+        connection.query(query, [email], (err, results) => {
+            if (err) {
+                return callback(err, null);
+            }
+            if (results.length === 0) {
+                return callback(null, null);
+            }
+            callback(null, results[0]);
+        });
     }
 };
 

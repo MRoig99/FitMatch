@@ -1,8 +1,15 @@
 const express = require('express');
+const cors = require('cors');
+
 const app = express();
+
 const dotenv = require('dotenv');
 dotenv.config();
 
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+  }));
 // Middleware para manejar JSON
 app.use(express.json());
 
