@@ -9,9 +9,6 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Lateral from '../../components/lateral'
 
-
-
-
 function App() {
   const [showModal, setShowModal] = useState(false);
 
@@ -23,12 +20,14 @@ function App() {
           <Lateral />
           <Col className='d-flex justify-content-center align-items-center'>
             <Form>
-              <Card className='rounded-4 colorPrincipal colorText' style={{ width: '25rem' }}>
+              <Card className='rounded-5 pt-2 colorPrincipal colorText' style={{ width: '25rem' }}>
                 <Card.Body>
-                  <Card.Title className='text-center fs-2'>Busca Partit</Card.Title>
+                  <Card.Title className='text-center fs-2 mb-4 textApp'>
+                    Busca Partit
+                  </Card.Title>
 
                   <Form.Group className="mb-3">
-                    <Form.Label>Esport</Form.Label>
+                    <Form.Label className='textApp'>Esport</Form.Label>
                     <Form.Select aria-label="Selecciona un esport">
                       <option>Selecciona un esport</option>
                       <option value="futbol">Futbol</option>
@@ -40,21 +39,17 @@ function App() {
                   </Form.Group>
 
                   <Form.Group className="mb-3" controlId="loginPassword">
-                    <Form.Label>Ubicació</Form.Label>
+                    <Form.Label className='textApp'>Ubicació</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Ubicació"
                     />
                   </Form.Group>
                   <div className='d-flex justify-content-center'>
-                    <Button className='boto mt-3' variant="primary" type="submit">
+                    <Button className='boto mt-3 w-100' type="submit">
                       Busca
                     </Button>
                   </div>
-
-                  <a className='d-flex justify-content-center pt-2 colorText' style={{ cursor: 'pointer' }}>
-                    No tens compte? Registrat
-                  </a>
                 </Card.Body>
               </Card>
             </Form>

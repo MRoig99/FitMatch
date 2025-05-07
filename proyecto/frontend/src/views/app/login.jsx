@@ -11,9 +11,6 @@ import axios from 'axios';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 
-
-
-
 function App() {
   const [showModal, setShowModal] = useState(false);
   const [nom, setNom] = useState('');

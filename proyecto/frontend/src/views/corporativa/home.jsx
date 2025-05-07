@@ -24,27 +24,27 @@ function App() {
     <Container className='fons contenedorPrincipal'>    
       <Row className="d-flex">        
         <Col xs="12" md="6"  className='p-lg-0'>
-          <div className='me-lg-2 d-flex justify-content-end'>
-            <div className='p-4 p-lg-5 tamanyInici rounded-4 fondoTextos'>
-              <h6 className='lh-lg pb-lg-5'>
+          <div className='me-lg-2 d-flex justify-content-xs-center justify-content-lg-end'>
+            <div className='p-4 p-lg-5 tamanyInici rounded-4 fonsTexts'>
+              <h6 className='lh-lg pb-lg-4'>
                 Descobreix partits a prop teu, crea esdeveniments esportius personalitzats i connecta amb altres apassionats de l'esport
                 de tots els nivells. No importa si ets un expert o estàs començant, amb FitMatch sempre trobaràs un lloc per jugar.
               </h6>
               <div className='pt-4 pt-lg-5'>
-                <Button className='boto mb-4' variant="secondary" type="submit">
+                <Button className='boto' variant="secondary" type="submit">
                   Comença ara!
                 </Button>
               </div>
             </div>         
           </div>
         </Col>
-        <Col className='p-0'>
-          <div className='ps-3 ps-lg-4'>
+        <Col xs="12" lg="6">
+          <div className='pb-5 mt-3 mt-md-0'>
             <div>
               <img className='rounded-4 tamanyFotos' src={fons} alt="FitMatch Logo"/>
             </div>
           </div>
-        </Col>       
+        </Col>     
       </Row>
       <Row>
         <Col>
@@ -91,9 +91,9 @@ function App() {
       <Row>
         <Col className='d-flex justify-content-center'>
           <div>
-            <Card className='p-0 border border-black fondoTextos card'>
+            <Card className='p-0 border border-black fonsTexts card'>
               <Card.Img variant="top" src={facil} />
-              <Card.Body className='fondoTextos'>
+              <Card.Body className='fonsTexts'>
                 <Card.Title className='text-center'>Fàcil i ràpid</Card.Title>
                 <Card.Text className='text-center px-4'>
                   Crea partits, fes reserves i porta el teu historial esportiu.
@@ -106,7 +106,7 @@ function App() {
           <div>
             <Card className='p-0 border border-black card mt-4 mt-md-0'>
               <Card.Img variant="top" src={tots} />
-              <Card.Body className='fondoTextos'>
+              <Card.Body className='fonsTexts'>
                 <Card.Title className='text-center'>Per a tots</Card.Title>
                 <Card.Text className='text-center px-4'>
                   Crea partits, fes reserves i porta el teu historial esportiu.
@@ -119,7 +119,7 @@ function App() {
           <div>
             <Card className='p-0 border border-black card mt-4 mt-md-0'>
               <Card.Img variant="top" src={gestio} />
-              <Card.Body className='fondoTextos'>
+              <Card.Body className='fonsTexts'>
                 <Card.Title className='text-center'>Gestió total</Card.Title>
                 <Card.Text className='text-center px-4'>
                   Crea partits, fes reserves i porta el teu historial esportiu.
@@ -137,16 +137,16 @@ function App() {
       </Row>
 
       <Row>
-        <Col className='p-md-0'>
+        <Col xs="12" lg="6" className='p-md-0'>
           <div className='me-md-2 d-flex justify-content-end'>
-            <div className='p-md-5 tamanyInici rounded-4 p-3 fondoTextos h-auto'>
-              <h6 className='lh-lg px-4'>
+            <div className='p-md-5 tamanyInici rounded-4 p-3 fonsTexts h-auto'>
+              <h6 className='lh-lg px-4 pb-5'>
               A FitMatch, no només podràs unir-te als teus esports preferits, sinó també descobrir noves disciplines que podrien apassionar-te. Amb la nostra plataforma, tindràs l’oportunitat de connectar amb altres persones que comparteixen els teus interessos, ja sigui per trobar companys d’entrenament, formar equips o simplement gaudir d’una activitat física en bona companyia. 
               </h6>
             </div>         
           </div>
         </Col>
-        <Col>
+        <Col xs="12" lg="6">
           <div className='pb-5 mt-3 mt-md-0'>
             <div>
               <img className='rounded-4 tamanyFotos' src={nous} alt="FitMatch Logo"/>

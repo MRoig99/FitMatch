@@ -1,9 +1,50 @@
+*{
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2,h3{
+  color: #0D1F2D !important;
+}
+
+body{
+  background-color: #F9F5F0 !important;
+}
+
+.contenedorPrincipal{
+  margin-top: 5.6em;
+  background-color: #F9F5F0 !important;
+}
+
 .colorPrincipal{
-  background-color: #213448 !important; 
+  background-color: #0C0950 !important; 
+}
+
+.colorText{
+  color: #F5EFE7 !important;
+}
+
+.boto{
+  background-color: #D9C5B2 !important;
+  color: #1B1F23 !important;
+  border-color: #000000 !important;
+}
+
+.boto:hover{
+  background-color: #077A7D !important;
+  color: #FFFFFF !important;
 }
 
 .fons{
   background-color: #FFFFFF;
+}
+
+.fonsTexts{
+  background-color: #0D1F2D;
+  color: #F4F4F4 !important;
+}
+
+.textApp{
+  color: #F4F4F4;
 }
 
 .fonsIniciSessio{
@@ -26,15 +67,19 @@
 }
 
 .elementoLista:hover{
-  background-color: #cacaca !important;
+    background-color: #077A7D !important;
 }
 
 .headerifooter{
-  background-color: #000000 !important;
+  background-color: #0D1F2D !important;
 }
 
-.colorText{
-  color: #ECEFCA !important;
+.enllaçNav{
+  color: #F4F4F4 !important;
+}
+
+.enllaçNav:hover{
+  color:#7AE2CF !important ;
 }
 
 .card{
@@ -43,20 +88,6 @@
 
 .colorHamburguesa{
   background-color: #ECEFCA !important;
-}
-
-.fondoTextos{
-  background-color: #213448;
-  color: #ECEFCA !important;
-}
-
-.boto{
-  background-color: #547792 !important;
-  color: #ECEFCA !important;
-}
-
-.boto:hover{
-  background-color: #000000;
 }
 
 .logo{
@@ -68,17 +99,12 @@
   height: 7em;
 }
 
-.contenedorPrincipal{
-  margin-top: 5.6em;
-}
-
 .tamanyInici{
-  width: 34em;
   height: 22em;
 }
 
 .tamanyFotos{
-  width: 34em;
+  width: 100%;
   height: 22em;
 }
 
@@ -108,7 +134,7 @@
 
 @media (max-width: 575.98px) { 
   .tamanyInici{
-    width: 25em;
+    width: auto;
   }
 
   .tamanyFotosCarrusel{
@@ -117,11 +143,9 @@
   }
 
   .tamanyFotos{
-    width: 20.5em;
+    width: 100%;
     height: 15em;
   }
-
-
 }
 
 

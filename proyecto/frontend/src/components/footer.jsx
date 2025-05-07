@@ -37,9 +37,9 @@ const Header = () => {
             </div>
             <div className='d-flex justify-content-center ps-md-5 pb-5 pb-md-0'>
               <div className='text-center text-md-start ps-md-5 d-flex flex-column gap-3'>
-                <a className='text-decoration-none colorText' href='#'>Política de cookies</a>
-                <a className='text-decoration-none colorText' href='#'>Condicions d'ús</a>
-                <a className='text-decoration-none colorText' href='#'>Política de privacitat</a>
+                <a className='text-decoration-none enllaçNav' href='#'>Política de cookies</a>
+                <a className='text-decoration-none enllaçNav' href='#'>Condicions d'ús</a>
+                <a className='text-decoration-none enllaçNav' href='#'>Política de privacitat</a>
               </div>         
             </div>
           </Col>
