@@ -32,7 +32,7 @@ const Header = () => {
             </div>
           </Col>
           <Col md="4">
-            <div className='text-center pb-4'>
+            <div className='text-center pb-4 mt-4 mt-lg-0'>
                 <h5 className='colorText'>Legal</h5>
             </div>
             <div className='d-flex justify-content-center ps-md-5 pb-5 pb-md-0'>

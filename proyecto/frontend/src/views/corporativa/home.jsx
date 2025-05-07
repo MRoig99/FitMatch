@@ -39,7 +39,7 @@ function App() {
           </div>
         </Col>
         <Col xs="12" lg="6">
-          <div className='pb-5 mt-3 mt-md-0'>
+          <div className='pb-2 mt-3 mt-md-0'>
             <div>
               <img className='rounded-4 tamanyFotos' src={fons} alt="FitMatch Logo"/>
             </div>
