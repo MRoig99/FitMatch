@@ -139,10 +139,9 @@ function App() {
     <>
       <Container fluid className='fonsIniciSessio'>
         <Row className="d-flex align-items-center justify-content-center vh-100">
-          
-          <Col className='d-flex justify-content-center'>
-              <Form onSubmit={handleLoginSubmit}>
-                <Card className='rounded-4 colorPrincipal colorText' style={{ width: '25rem' }}>
+          <Col className='d-flex justify-content-center contenidorAmbFormulari'>
+              <Form onSubmit={handleLoginSubmit} className='formulari'>
+                <Card className='rounded-4 colorPrincipal colorText cardForm'>
                   <Card.Body>
                     <Card.Title className='text-center fs-2'>Inicia Sessió</Card.Title>
 
@@ -186,12 +185,12 @@ function App() {
         </Row>
       </Container>
 
-      {/* Modal de Registro */}
+      
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton className='colorPrincipal colorText'>
           <Modal.Title className='fs-2 w-100 text-center'>Registra't</Modal.Title>
         </Modal.Header>
-        <Modal.Body className='colorPrincipal colorText'>
+        <Modal.Body className='colorPrincipal colorText modalBodyResponsive'>
           {success && <p className="text-success text-center">{success}</p>}
           <Form onSubmit={handleRegisterSubmit}>
             <Form.Group className="mb-3" controlId="formBasicName">

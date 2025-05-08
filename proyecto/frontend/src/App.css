@@ -55,10 +55,6 @@ body{
   height: 100vh;
 }
 
-.formulari{
-  width: 55% !important;
-}
-
 .menuLateral {
   display: flex;
   flex-direction: column;
@@ -155,7 +151,44 @@ body{
 }
 
 
+
 @media (max-width: 575.98px) { 
+  .modalRegister {
+    max-width: 90% !important;
+    margin: auto;
+  }
+
+  .modalBodyResponsive {
+    padding: 1rem !important;
+  }
+
+  .modalBodyResponsive .form-control {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .modalBodyResponsive label,
+  .modalBodyResponsive .form-label {
+    font-size: 0.9rem;
+  }
+
+  .modalBodyResponsive .btn {
+    font-size: 0.9rem;
+    padding: 0.4rem 1rem;
+  }
+
+  .modalBodyResponsive small {
+    font-size: 0.75rem;
+  }
+
+  .modal-title {
+    font-size: 1.2rem;
+  }
+
+  .modal-header, .modal-footer {
+    padding: 0.5rem 1rem !important;
+  }
+  
   .tamanyInici{
     width: auto;
   }
@@ -200,6 +233,14 @@ body{
 @media (min-width: 768px) {
   .menuLateral {
     height: 100vh;
+  }
+
+  .contenidorAmbFormulari {
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4em 0; /* espai vertical */
   }
 }
 

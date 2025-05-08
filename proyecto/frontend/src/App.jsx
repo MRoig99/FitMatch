@@ -4,7 +4,7 @@ import Login from './views/app/login';  // Importar desde la carpeta 'views'
 import Inici from './views/app/inici'; // Importar desde la carpeta 'views'
 import Home from './views/corporativa/home';  // Importar desde la carpeta 'views'
 import RutaProtegida from './components/rutaProtegida';
-
+import Crea from './views/app/crea'
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/busca" element={<Inici />} />
+        <Route path="/crea" element={<Crea />} />
         {/* <Route
           path="/busca"
           element={
