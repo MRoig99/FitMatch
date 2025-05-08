@@ -1,10 +1,9 @@
-// Header.jsx
 import React from 'react';
 import { BsSearch, BsPlusCircle, BsClockHistory, BsPerson, BsBoxArrowRight } from 'react-icons/bs';
 import { Col } from 'react-bootstrap';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-const Header = () => {
+const Lateral = () => {
   return (
     <>
       <Col xs="2" className='border border-black colorPrincipal p-0 d-md-block d-none'>
@@ -19,12 +18,12 @@ const Header = () => {
               <BsPlusCircle className='me-2' />Crear Partit
             </ListGroup.Item>
           </a>
-          <a href="#" className='colorText text-decoration-none'>
+          <a href="/historial" className='colorText text-decoration-none'>
             <ListGroup.Item className='colorPrincipal colorText border border-0 border-bottom elementoLista py-0 d-flex align-items-center'>
               <BsClockHistory className='me-2' />Historial
             </ListGroup.Item>
           </a>
-          <a href="#" className='colorText text-decoration-none'>
+          <a href="/perfil" className='colorText text-decoration-none'>
             <ListGroup.Item className='colorPrincipal colorText border border-0 border-bottom elementoLista py-0 d-flex align-items-center'>
               <BsPerson className='me-2' />Perfil
             </ListGroup.Item>
@@ -46,11 +45,11 @@ const Header = () => {
           <BsPlusCircle size={24} />
           <span className="menuText">Crear</span>
         </a>
-        <a href="#" className='colorText d-flex flex-column align-items-center'>
+        <a href="/historial" className='colorText d-flex flex-column align-items-center'>
           <BsClockHistory size={24} />
           <span className="menuText">Historial</span>
         </a>
-        <a href="#" className='colorText d-flex flex-column align-items-center'>
+        <a href="/perfil" className='colorText d-flex flex-column align-items-center'>
           <BsPerson size={24} />
           <span className="menuText">Perfil</span>
         </a>
@@ -63,4 +62,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Lateral;

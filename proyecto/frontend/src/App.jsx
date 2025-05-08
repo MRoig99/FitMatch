@@ -5,6 +5,8 @@ import Inici from './views/app/inici'; // Importar desde la carpeta 'views'
 import Home from './views/corporativa/home';  // Importar desde la carpeta 'views'
 import RutaProtegida from './components/rutaProtegida';
 import Crea from './views/app/crea'
+import Historial from './views/app/historial'
+import Perfil from './views/app/perfil'
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/busca" element={<Inici />} />
         <Route path="/crea" element={<Crea />} />
+        <Route path="/historial" element={<Historial />} />
+        <Route path="/perfil" element={<Perfil />} />
         {/* <Route
           path="/busca"
           element={

@@ -1,11 +1,10 @@
-// src/components/Header.jsx
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import logo from '../assets/logo.png';
 import '../App.css';
 
 
-const Header = () => {
+const Footer = () => {
   return (
     
       <Container fluid className='headerifooter text-white'>
@@ -48,4 +47,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Footer;

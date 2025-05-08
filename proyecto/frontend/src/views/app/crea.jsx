@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Lateral from '../../components/lateral'
 
-function App() {
+function Crea() {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -74,4 +74,4 @@ function App() {
   )
 }
 
-export default App;
+export default Crea;

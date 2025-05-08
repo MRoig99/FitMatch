@@ -11,7 +11,7 @@ import axios from 'axios';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 
-function App() {
+function Login() {
   const [showModal, setShowModal] = useState(false);
   const [nom, setNom] = useState('');
   const [cognom, setCognom] = useState('');
@@ -271,4 +271,4 @@ function App() {
   )
 }
 
-export default App;
+export default Login;
