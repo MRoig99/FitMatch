@@ -55,10 +55,29 @@ body{
   height: 100vh;
 }
 
-.menuLateral{
-  height: 100vh; 
- 
-  flex-direction: column; 
+.formulari{
+  width: 55% !important;
+}
+
+.menuLateral {
+  display: flex;
+  flex-direction: column;
+}
+
+.menuMobil a {
+  text-decoration: none;
+  flex: 1;
+  font-size: 0.75rem;
+}
+
+.menuText {
+  font-size: 0.7rem;
+  margin-top: 0.2em;
+}
+
+.menuMobil a:hover {
+  background-color: #077A7D;
+  border-radius: 1em;
 }
 
 .elementoLista{
@@ -68,6 +87,10 @@ body{
 
 .elementoLista:hover{
     background-color: #077A7D !important;
+}
+
+.cardForm{
+  width: 35em !important;
 }
 
 .headerifooter{
@@ -146,7 +169,42 @@ body{
     width: 100%;
     height: 15em;
   }
+
+  .cardForm{
+    width: 100% !important;
+  }
+
+  .formulari{
+    width: 100% !important;
+  }
+
+  .menuLateral{
+    height: auto;
+  }
+
+  .elementoLista{
+    height: auto;
+    font-size: 0.9em;
+    width: 100%;
+  }
+
+  .contenidorAmbFormulari {
+    min-height: calc(105vh - 3.5em);
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding-bottom: 3.5em; 
+  }
 }
+
+@media (min-width: 768px) {
+  .menuLateral {
+    height: 100vh;
+  }
+}
+
+
+
 
 
 @keyframes logo-spin {

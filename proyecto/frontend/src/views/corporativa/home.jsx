@@ -140,7 +140,7 @@ function App() {
         <Col xs="12" lg="6" className='p-md-0'>
           <div className='me-md-2 d-flex justify-content-end'>
             <div className='p-md-5 tamanyInici rounded-4 p-3 fonsTexts h-auto'>
-              <h6 className='lh-lg px-4 pb-5'>
+              <h6 className='lh-lg px-4 pb-lg-5'>
               A FitMatch, no només podràs unir-te als teus esports preferits, sinó també descobrir noves disciplines que podrien apassionar-te. Amb la nostra plataforma, tindràs l’oportunitat de connectar amb altres persones que comparteixen els teus interessos, ja sigui per trobar companys d’entrenament, formar equips o simplement gaudir d’una activitat física en bona companyia. 
               </h6>
             </div>         

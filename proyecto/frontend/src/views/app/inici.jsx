@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
 import Lateral from '../../components/lateral'
 
 function App() {
@@ -16,11 +15,11 @@ function App() {
     <>
 
       <Container fluid>
-        <Row>
-          <Lateral />
-          <Col className='d-flex justify-content-center align-items-center'>
-            <Form>
-              <Card className='rounded-5 pt-2 colorPrincipal colorText' style={{ width: '25rem' }}>
+        <Row className="full-height">
+           <Lateral />   
+          <Col xs="12" md="10" className='d-flex justify-content-center align-items-center contenidorAmbFormulari'>
+            <Form className=' formulari'>
+              <Card className='rounded-5 pt-2 colorPrincipal colorText cardForm'>
                 <Card.Body>
                   <Card.Title className='text-center fs-2 mb-4 textApp'>
                     Busca Partit
