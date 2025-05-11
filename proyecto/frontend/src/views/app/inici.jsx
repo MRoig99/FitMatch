@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import '../../App.css'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -10,12 +11,19 @@ import Lateral from '../../components/lateral'
 
 function Inicio() {
   const [showModal, setShowModal] = useState(false);
+  const [esports, setEsports] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/esports') // ajusta l'URL al teu backend
+      .then(response => setEsports(response.data))
+      .catch(error => console.error('Error carregant esports:', error));
+  }, []);
 
   return (
     <>
       <Container fluid>
         <Row className="full-height">
-          <Lateral />   
+          <Lateral />
           <Col xs="12" md="10" className='d-flex justify-content-center align-items-center contenidorAmbFormulari'>
             <Form className='formulari'>
               <Card className='rounded-5 pt-2 colorPrincipal colorText cardForm'>
@@ -27,12 +35,12 @@ function Inicio() {
                   <Form.Group className="mb-3">
                     <Form.Label className='textApp'>Esport</Form.Label>
                     <Form.Select aria-label="Selecciona un esport">
-                      <option>Selecciona un esport</option>
-                      <option value="futbol">Futbol</option>
-                      <option value="basquet">Bàsquet</option>
-                      <option value="tenis">Tenis</option>
-                      <option value="padel">Pàdel</option>
-                      <option value="volei">Voleibol</option>
+                      <option value="">Selecciona un esport</option>
+                      {esports.map((esport) => (
+                        <option key={esport.id} value={esport.nom}>
+                          {esport.nom.charAt(0).toUpperCase() + esport.nom.slice(1)}
+                        </option>
+                      ))}
                     </Form.Select>
                   </Form.Group>
 
