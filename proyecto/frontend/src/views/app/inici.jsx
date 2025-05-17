@@ -14,7 +14,7 @@ function Inicio() {
   const [esports, setEsports] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/esports') // ajusta l'URL al teu backend
+    axios.get('http://localhost:3000/esports') 
       .then(response => setEsports(response.data))
       .catch(error => console.error('Error carregant esports:', error));
   }, []);
