@@ -25,6 +25,7 @@ const ubicacioRoutes = require('./routes/ubicacioRoutes');
 const esportRoutes = require('./routes/esportRoutes');
 const estatReservaRoutes = require('./routes/estatReservaRoutes');
 const estatPartitRoutes = require('./routes/estatPartitRoutes');
+const pistaRoutes = require('./routes/pistaRoutes');
 
 // Usar las rutas
 app.use('/usuarios', usuarioRoutes);
@@ -38,6 +39,7 @@ app.use('/ubicacions', ubicacioRoutes);
 app.use('/esports', esportRoutes);
 app.use('/estat_reserva', estatReservaRoutes);
 app.use('/estat_partit', estatPartitRoutes);
+app.use('/pistas', pistaRoutes);
 
 // Puerto donde se ejecutará el servidor
 const PORT = process.env.PORT || 3000;
