@@ -14,18 +14,17 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/busca" element={<Inici />} />
         <Route path="/crea" element={<Crea />} />
         <Route path="/historial" element={<Historial />} />
         <Route path="/perfil" element={<Perfil />} />
-        {/* <Route
+        <Route
           path="/busca"
           element={
             <RutaProtegida>
               <Inici />
             </RutaProtegida>
           }
-        /> */}
+        /> 
       </Routes>
     </Router>
   );

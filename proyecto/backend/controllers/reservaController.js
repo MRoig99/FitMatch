@@ -28,8 +28,7 @@ const reservaController = {
 
     // POST /reserves - crear una nova reserva
     create: (req, res) => {
-        const novaReserva = req.body;
-
+        const novaReserva = req.body;    
         Reserva.create(novaReserva, (err, resultat) => {
             if (err) {
                 return res.status(500).json({ error: 'Error al crear la reserva.' });

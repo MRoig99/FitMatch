@@ -26,13 +26,14 @@ const partitController = {
         });
     },
 
-    // POST /partits - crear un nou partit
     create: (req, res) => {
         const nouPartit = req.body;
+        console.log('Dades per crear partit:', nouPartit);
 
         Partit.create(nouPartit, (err, resultat) => {
             if (err) {
-                return res.status(500).json({ error: 'Error al crear el partit.' });
+                console.error('Error al crear partit:', err); // <--- esto imprime el error exacto
+                return res.status(500).json({ error: 'Error al crear el partit.', details: err.message });
             }
             res.status(201).json({ message: 'Partit creat correctament', id: resultat.insertId });
         });

@@ -24,9 +24,9 @@ const Partit = {
 
     // Método para crear un nuevo partido
     create: (partit, callback) => {
-        const { id_usuari_creador, id_esport, id_ubicacio, nom, data, maxim_participants, data_creacio, participants, preu, descripcio } = partit;
-        const query = 'INSERT INTO Partit (id_usuari_creador, id_esport, id_ubicacio, nom, data, maxim_participants, data_creacio, participants, preu, descripcio) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        connection.query(query, [id_usuari_creador, id_esport, id_ubicacio, nom, data, maxim_participants, data_creacio, participants, preu, descripcio], (err, results) => {
+        const { id_usuari_creador, id_esport, id_ubicacio, nom, data_creacio, participants, preu, descripcio } = partit;
+        const query = 'INSERT INTO partit (id_usuari_creador, id_esport, id_ubicacio, nom, data_creacio, participants, preu, descripcio) VALUES(?, ?, ?, ?, ?, ?, ?, ?); ';
+        connection.query(query, [id_usuari_creador, id_esport, id_ubicacio, nom, data_creacio, participants, preu, descripcio], (err, results) => {
             if (err) {
                 return callback(err, null);
             }
