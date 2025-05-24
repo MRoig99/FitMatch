@@ -67,23 +67,32 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
       descripcio: 'PAPAFRITA'
     }).then((resPartit) => {
       const idPartitCreat = resPartit.data.id;
-      
+
       axios.post('http://localhost:3000/reserves', {
         id_usuari: usuariId,
         id_partit: idPartitCreat,
         id_pista: pistaSeleccionada.id,
         data_reserva: dataSeleccionada,
-        hora: pistaSeleccionada.hora || '00:00'
+        hora: pistaSeleccionada.hora || '00:00',
+        id_estat_reserva: 1  
       }).then(() => {
         axios.patch(`http://localhost:3000/pistas/${pistaSeleccionada.id}`, {
           disponibilitat: false
         }).then(() => {
-          alert('Reserva i partit creats correctament!');
-          tancarConfirmarReserva();
-          onHide();
+          axios.post('http://localhost:3000/usuariPartit', {
+            id_usuari: usuariId,
+            id_partit: idPartitCreat
+          }).then(() => {
+            alert('Reserva y partido creados correctamente!');
+            tancarConfirmarReserva();
+            onHide();
+          }).catch(err => {
+            console.error('Error asignando usuario al partido:', err);
+            alert('Error al asignar el usuario al partido.');
+          });
         }).catch(err => {
-          console.error('Error actualitzant disponibilitat:', err);
-          alert('Error actualitzant la disponibilitat de la pista.');
+          console.error('Error actualizando disponibilidad:', err);
+          alert('Error actualizando la disponibilidad de la pista.');
         });
       }).catch(err => {
         alert('Error al crear la reserva.');
@@ -91,7 +100,7 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
       });
 
     }).catch(err => {
-      alert('Error al crear el partit.');
+      alert('Error al crear el partido.');
       console.error(err);
     });
   };

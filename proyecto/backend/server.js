@@ -26,6 +26,7 @@ const esportRoutes = require('./routes/esportRoutes');
 const estatReservaRoutes = require('./routes/estatReservaRoutes');
 const estatPartitRoutes = require('./routes/estatPartitRoutes');
 const pistaRoutes = require('./routes/pistaRoutes');
+const usuariPartitRoutes = require ('./routes/usuariPartitRoutes')
 
 app.use('/usuarios', usuarioRoutes);
 app.use('/partits', partitRoutes);
@@ -39,6 +40,7 @@ app.use('/esports', esportRoutes);
 app.use('/estat_reserva', estatReservaRoutes);
 app.use('/estat_partit', estatPartitRoutes);
 app.use('/pistas', pistaRoutes);
+app.use('/usuariPartit', usuariPartitRoutes)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

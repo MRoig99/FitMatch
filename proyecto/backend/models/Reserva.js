@@ -20,9 +20,9 @@ const Reserva = {
     },
 
     create: (reserva, callback) => {   
-        const { id_usuari, id_partit, id_pista, data_reserva, hora } = reserva;
-        const query = 'INSERT INTO Reserva (id_usuari, id_partit, id_pista, data_reserva, hora) VALUES (?, ?, ?, ?, ?)';
-        connection.query(query, [id_usuari, id_partit, id_pista, data_reserva, hora], (err, results) => {
+        const { id_usuari, id_partit, id_pista, id_estat_reserva, data_reserva, hora } = reserva;
+        const query = 'INSERT INTO Reserva (id_usuari, id_partit, id_pista, id_estat_reserva, data_reserva, hora) VALUES (?, ?, ?, ?, ?, ?)';
+        connection.query(query, [id_usuari, id_partit, id_pista, id_estat_reserva, data_reserva, hora], (err, results) => {
             if (err) {
                 return callback(err, null);
             }

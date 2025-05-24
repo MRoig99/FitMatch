@@ -24,9 +24,9 @@ const Estat_reserva = {
 
     // Método para crear un nuevo estado de reserva
     create: (estatReserva, callback) => {
-        const { id_reserva, nom } = estatReserva;
-        const query = 'INSERT INTO Estat_reserva (id_reserva, nom) VALUES (?, ?)';
-        connection.query(query, [id_reserva, nom], (err, results) => {
+        const { nom } = estatReserva;
+        const query = 'INSERT INTO Estat_reserva (nom) VALUES (?)';
+        connection.query(query, [nom], (err, results) => {
             if (err) {
                 return callback(err, null);
             }
