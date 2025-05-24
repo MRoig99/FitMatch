@@ -16,7 +16,6 @@ exports.getPistasDisponibles = (req, res) => {
   });
 };
 
-
 exports.updateDisponibilitat = (req, res) => {
   const id = req.params.id;
   const { disponibilitat } = req.body;
@@ -31,5 +30,21 @@ exports.updateDisponibilitat = (req, res) => {
       return res.status(500).json({ error: 'Error actualitzant disponibilitat' });
     }
     res.json({ message: 'Disponibilitat actualitzada correctament.' });
+  });
+};
+
+exports.getPistesReservadesActives = (req, res) => {
+  const { ciutat, idEsport, data } = req.query;
+
+  if (!ciutat || !idEsport || !data) {
+    return res.status(400).json({ error: 'Falten paràmetres: ciutat, idEsport i data' });
+  }
+
+  Pista.getReservadesActives(ciutat, idEsport, data, (err, resultats) => {
+    if (err) {
+      console.error('Error obtenint pistes reservades actives:', err);
+      return res.status(500).json({ error: 'Error del servidor' });
+    }
+    res.json(resultats);
   });
 };
