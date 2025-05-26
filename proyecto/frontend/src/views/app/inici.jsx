@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../App.css';
 import Container from 'react-bootstrap/Container';
@@ -17,13 +17,25 @@ function BuscarPartit() {
   const [esportSeleccionat, setEsportSeleccionat] = useState(null);
   const [ciutatSeleccionada, setCiutatSeleccionada] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [usuariId, setUsuariId] = useState(null);
 
+  // Carrega l'ID de l'usuari des del localStorage
+  useEffect(() => {
+    const usuariString = localStorage.getItem('usuari');
+    if (usuariString) {
+      const usuari = JSON.parse(usuariString);
+      setUsuariId(usuari.id);
+    }
+  }, []);
+
+  // Carrega llista d'esports
   useEffect(() => {
     axios.get('http://localhost:3000/esports')
       .then(res => setEsports(res.data))
       .catch(err => console.error('Error carregant esports:', err));
   }, []);
 
+  // Suggeriments d'ubicacions segons la cerca
   useEffect(() => {
     if (busqueda.length >= 2) {
       axios.get('http://localhost:3000/ubicacions')
@@ -50,7 +62,7 @@ function BuscarPartit() {
     <Container fluid>
       <Row className="full-height">
         <Lateral />
-        <Col xs="12" md="10" className='d-flex justify-content-center align-items-center contenidorAmbFormulari'>
+        <Col xs="12" md="10" className="d-flex justify-content-center align-items-center contenidorAmbFormulari">
           <Form className='formulari'>
             <Card className='rounded-5 pt-2 colorPrincipal colorText cardForm'>
               <Card.Body>
@@ -64,7 +76,7 @@ function BuscarPartit() {
                     value={esportSeleccionat || ''}
                   >
                     <option value="">Selecciona un esport</option>
-                    {esports.map((esport) => (
+                    {esports.map(esport => (
                       <option key={esport.id} value={esport.id}>
                         {esport.nom.charAt(0).toUpperCase() + esport.nom.slice(1)}
                       </option>
@@ -83,7 +95,7 @@ function BuscarPartit() {
                   />
                   {suggestions.length > 0 && (
                     <ListGroup style={{ position: 'absolute', zIndex: 10, width: '100%' }}>
-                      {suggestions.map((ubicacio) => (
+                      {suggestions.map(ubicacio => (
                         <ListGroup.Item
                           key={ubicacio.id}
                           action
@@ -107,6 +119,7 @@ function BuscarPartit() {
           onHide={() => setShowModal(false)}
           ciutat={ciutatSeleccionada}
           idEsport={esportSeleccionat}
+          usuariId={usuariId}
         />
       )}
     </Container>

@@ -10,4 +10,6 @@ router.get('/usuari/:id_usuari', usuariPartitController.getByUsuario);
 
 router.delete('/:id', usuariPartitController.delete);
 
+router.get('/filter', usuariPartitController.getByUsuarioPartit);
+
 module.exports = router;

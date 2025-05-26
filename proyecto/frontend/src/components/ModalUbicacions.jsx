@@ -8,40 +8,33 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
   const [dataSeleccionada, setDataSeleccionada] = useState(new Date().toISOString().split('T')[0]);
   const [pistaSeleccionada, setPistaSeleccionada] = useState(null);
   const [showConfirmarReserva, setShowConfirmarReserva] = useState(false);
-  const [ubicacioSeleccionadaId, setUbicacioSeleccionadaId] = useState(null);
 
+  // Restableix selecció quan canvies data
   useEffect(() => {
     setShowConfirmarReserva(false);
     setPistaSeleccionada(null);
   }, [dataSeleccionada]);
 
+  // Carrega ubicacions + pistes disponibles
   useEffect(() => {
     if (show && ciutat && idEsport && dataSeleccionada) {
       axios.get('http://localhost:3000/ubicacions')
-        .then((res) => {
-          const filtrades = res.data.filter(
-            u => u.ciutat.toLowerCase() === ciutat.toLowerCase()
-          );
-
-          const promeses = filtrades.map(async ubicacio => {
-            const { data } = await axios.get('http://localhost:3000/pistas/disponibles', {
-              params: {
-                idUbicacio: ubicacio.id,
-                idEsport: idEsport,
-                data: dataSeleccionada,
-              }
+        .then(res => {
+          const filtrades = res.data.filter(u => u.ciutat.toLowerCase() === ciutat.toLowerCase());
+          return Promise.all(filtrades.map(async ubicacio => {
+            const { data: pistes } = await axios.get('http://localhost:3000/pistas/disponibles', {
+              params: { idUbicacio: ubicacio.id, idEsport, data: dataSeleccionada }
             });
-            return { ...ubicacio, pistes: data };
-          });
-
-          Promise.all(promeses).then(setUbicacions);
-        });
+            return { ...ubicacio, pistes };
+          }));
+        })
+        .then(setUbicacions)
+        .catch(err => console.error('Error carregant pistes disponibles:', err));
     }
   }, [show, ciutat, idEsport, dataSeleccionada]);
 
-  const obrirConfirmarReserva = (pista, idUbicacio) => {
+  const obrirConfirmarReserva = (pista) => {
     setPistaSeleccionada(pista);
-    setUbicacioSeleccionadaId(idUbicacio);
     setShowConfirmarReserva(true);
   };
 
@@ -56,52 +49,52 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
       return;
     }
 
+    let idPartitCreat;
     axios.post('http://localhost:3000/partits', {
       id_usuari_creador: usuariId,
       id_esport: idEsport,
-      id_ubicacio: ubicacioSeleccionadaId,
+      id_pista: pistaSeleccionada.id,
       nom: `Partit de ${pistaSeleccionada.nom}`,
       data_creacio: new Date().toISOString().slice(0, 19).replace('T', ' '),
       participants: 1,
       preu: pistaSeleccionada.preu_total,
       descripcio: 'PAPAFRITA'
-    }).then((resPartit) => {
-      const idPartitCreat = resPartit.data.id;
-
-      axios.post('http://localhost:3000/reserves', {
+    })
+    .then(resPartit => {
+      idPartitCreat = resPartit.data.id;
+      // Afegeix el patch per marcar la pista com a no disponible
+      return axios.patch(`http://localhost:3000/pistas/${pistaSeleccionada.id}`, {
+        disponibilitat: false
+      });
+    })
+    .then(() => {
+      // Creem la reserva després d'actualitzar disponibilitat
+      return axios.post('http://localhost:3000/reserves', {
         id_usuari: usuariId,
         id_partit: idPartitCreat,
         id_pista: pistaSeleccionada.id,
+        id_estat_reserva: 1,
         data_reserva: dataSeleccionada,
-        hora: pistaSeleccionada.hora || '00:00',
-        id_estat_reserva: 1  
-      }).then(() => {
-        axios.patch(`http://localhost:3000/pistas/${pistaSeleccionada.id}`, {
-          disponibilitat: false
-        }).then(() => {
-          axios.post('http://localhost:3000/usuariPartit', {
-            id_usuari: usuariId,
-            id_partit: idPartitCreat
-          }).then(() => {
-            alert('Reserva y partido creados correctamente!');
-            tancarConfirmarReserva();
-            onHide();
-          }).catch(err => {
-            console.error('Error asignando usuario al partido:', err);
-            alert('Error al asignar el usuario al partido.');
-          });
-        }).catch(err => {
-          console.error('Error actualizando disponibilidad:', err);
-          alert('Error actualizando la disponibilidad de la pista.');
-        });
-      }).catch(err => {
-        alert('Error al crear la reserva.');
-        console.error(err);
+        hora: pistaSeleccionada.hora || '00:00'
       });
-
-    }).catch(err => {
-      alert('Error al crear el partido.');
-      console.error(err);
+    })
+    .then(() => {
+      console.log(idPartitCreat);
+      // Assigna usuari al partit
+      return axios.post('http://localhost:3000/usuariPartit', {
+        id_usuari: usuariId,
+        id_partit: idPartitCreat
+      });
+    })
+    .then(resUsuariPartit => {
+      console.log('Resposta usuariPartit:', resUsuariPartit.data);
+      alert('Reserva, partit i disponibilitat actualitzats correctament!');
+      tancarConfirmarReserva();
+      onHide();
+    })
+    .catch(err => {
+      console.error('Error creant partida i reserva:', err);
+      alert('Sha produit un error al crear la reserva.');
     });
   };
 
@@ -128,7 +121,7 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
             <Form.Control
               type="date"
               value={dataSeleccionada}
-              onChange={(e) => setDataSeleccionada(e.target.value)}
+              onChange={e => setDataSeleccionada(e.target.value)}
             />
           </Form.Group>
 
@@ -136,10 +129,10 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
             <p>No s'han trobat pistes disponibles.</p>
           ) : (
             <Row>
-              {ubicacions.map(ubicacio => (
+              {ubicacions.map(ubicacio =>
                 ubicacio.pistes.map(pista => (
                   <Col xs={12} key={pista.id} className="mb-3">
-                    <Card className='w-100'>
+                    <Card className="w-100">
                       <Card.Body>
                         <Row className="align-items-center">
                           <Col>
@@ -151,14 +144,16 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
                               <strong>Jugadors:</strong> {pista.jugadors_necessaris}<br />
                               <strong>Hora:</strong> {pista.hora || 'No disponible'}
                             </Card.Text>
-                            <Button variant="success" onClick={() => obrirConfirmarReserva(pista, ubicacio.id)}>Reservar pista</Button>
+                            <Button variant="success" onClick={() => obrirConfirmarReserva(pista)}>
+                              Reservar pista
+                            </Button>
                           </Col>
                         </Row>
                       </Card.Body>
                     </Card>
                   </Col>
                 ))
-              ))}
+              )}
             </Row>
           )}
         </Modal.Body>

@@ -28,6 +28,14 @@ const UsuariPartit = {
         });
     },
 
+    getByUsuarioAndPartit: (id_usuari, id_partit, callback) => {
+        const sql = 'SELECT * FROM usuari_partit WHERE id_usuari = ? AND id_partit = ?';
+        connection.query(sql, [id_usuari, id_partit], (err, results) => {
+            if (err) return callback(err, null);
+            callback(null, results);
+        });
+    },
+
     create: (usuariPartit, callback) => {
         const { id_usuari, id_partit } = usuariPartit;
         const query = 'INSERT INTO usuari_partit (id_usuari, id_partit) VALUES (?, ?)';

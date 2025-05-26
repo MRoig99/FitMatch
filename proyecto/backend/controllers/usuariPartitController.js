@@ -24,8 +24,22 @@ const usuariPartitController = {
         });
     },
 
+    getByUsuarioPartit: (req, res) => {
+        const { id_usuari, id_partit } = req.query;
+        if (!id_usuari || !id_partit) {
+            return res.status(400).json({ error: 'Falten id_usuari o id_partit.' });
+        }
+        UsuariPartit.getByUsuarioAndPartit(id_usuari, id_partit, (err, rows) => {
+            if (err) {
+                console.error('Error obtenint per usuari+partit:', err);
+                return res.status(500).json({ error: 'Error del servidor.' });
+            }
+            res.json(rows);
+        });
+    },
+
     create: (req, res) => {
-        const { id_usuari, id_partit } = req.body;  
+        const { id_usuari, id_partit } = req.body;
 
         if (!id_usuari || !id_partit) {
             return res.status(400).json({ error: 'Faltan datos para asignar el usuario al partido' });
