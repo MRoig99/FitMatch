@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import '../../App.css'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -26,6 +26,10 @@ function Login() {
   const [loginPassword, setLoginPassword] = useState('');
   const [loginErrors, setLoginErrors] = useState({});
   const [loginGeneralError, setLoginGeneralError] = useState('');
+
+  useEffect(() => {
+    localStorage.removeItem('usuari');
+  }, []);
 
   const navigate = useNavigate();
 
@@ -115,7 +119,7 @@ function Login() {
         .then((response) => {
           console.log("Sessió iniciada:", response.data);
           localStorage.setItem('usuari', JSON.stringify(response.data.usuari));
-          navigate('/busca'); 
+          navigate('/busca');
           setLoginErrors({});
           setLoginGeneralError('');
         })
@@ -140,52 +144,52 @@ function Login() {
       <Container fluid className='fonsIniciSessio'>
         <Row className="d-flex align-items-center justify-content-center vh-100">
           <Col className='d-flex justify-content-center contenidorAmbFormulari'>
-              <Form onSubmit={handleLoginSubmit} className='formulari'>
-                <Card className='rounded-4 colorPrincipal colorText cardForm'>
-                  <Card.Body>
-                    <Card.Title className='text-center fs-2'>Inicia Sessió</Card.Title>
+            <Form onSubmit={handleLoginSubmit} className='formulari'>
+              <Card className='rounded-4 colorPrincipal colorText cardForm'>
+                <Card.Body>
+                  <Card.Title className='text-center fs-2'>Inicia Sessió</Card.Title>
 
-                    <Form.Group className="mb-3" controlId="loginEmail">
-                      <Form.Label>Email address</Form.Label>
-                      <Form.Control
-                        type="email"
-                        placeholder="Enter email"
-                        value={loginEmail}
-                        onChange={(e) => setLoginEmail(e.target.value)}
-                      />
-                      {loginErrors.email && <small className="text-danger">{loginErrors.email}</small>}
-                    </Form.Group>
+                  <Form.Group className="mb-3" controlId="loginEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control
+                      type="email"
+                      placeholder="Enter email"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                    />
+                    {loginErrors.email && <small className="text-danger">{loginErrors.email}</small>}
+                  </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="loginPassword">
-                      <Form.Label>Password</Form.Label>
-                      <Form.Control
-                        type="password"
-                        placeholder="Password"
-                        value={loginPassword}
-                        onChange={(e) => setLoginPassword(e.target.value)}
-                      />
-                      {loginErrors.password && <small className="text-danger">{loginErrors.password}</small>}
-                    </Form.Group>
+                  <Form.Group className="mb-3" controlId="loginPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Password"
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                    />
+                    {loginErrors.password && <small className="text-danger">{loginErrors.password}</small>}
+                  </Form.Group>
 
-                    {loginGeneralError && <p className="text-danger text-center">{loginGeneralError}</p>}
+                  {loginGeneralError && <p className="text-danger text-center">{loginGeneralError}</p>}
 
-                    <div className='d-flex justify-content-center'>
-                      <Button className='boto mt-3' variant="primary" type="submit">
-                        Inicia Sessió
-                      </Button>
-                    </div>
+                  <div className='d-flex justify-content-center'>
+                    <Button className='boto mt-3' variant="primary" type="submit">
+                      Inicia Sessió
+                    </Button>
+                  </div>
 
-                    <a onClick={handleOpenModal} className='d-flex justify-content-center pt-2 colorText' style={{ cursor: 'pointer' }}>
-                      No tens compte? Registrat
-                    </a>
-                  </Card.Body>
-                </Card>
-              </Form>
+                  <a onClick={handleOpenModal} className='d-flex justify-content-center pt-2 colorText' style={{ cursor: 'pointer' }}>
+                    No tens compte? Registrat
+                  </a>
+                </Card.Body>
+              </Card>
+            </Form>
           </Col>
         </Row>
       </Container>
 
-      
+
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton className='colorPrincipal colorText'>
           <Modal.Title className='fs-2 w-100 text-center'>Registra't</Modal.Title>

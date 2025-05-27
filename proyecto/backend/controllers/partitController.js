@@ -1,8 +1,6 @@
-// controllers/partitController.js
 const Partit = require('../models/Partit');
 
 const partitController = {
-  // GET /partits
   getAll: (req, res) => {
     Partit.getAll((err, partits) => {
       if (err) return res.status(500).json({ error: 'Error al obtenir els partits.' });
@@ -10,7 +8,6 @@ const partitController = {
     });
   },
 
-  // GET /partits/:id
   getById: (req, res) => {
     const id = req.params.id;
     Partit.getById(id, (err, partit) => {
@@ -20,7 +17,6 @@ const partitController = {
     });
   },
 
-  // GET /partits/pista/:id
   getByPista: (req, res) => {
     const pistaId = req.params.id;
     Partit.getByPista(pistaId, (err, partit) => {
@@ -41,7 +37,45 @@ const partitController = {
     });
   },
 
-  // POST /partits
+  getHistorialUsuari: async (req, res) => {
+    const idUsuari = req.params.idUsuari;
+    try {
+      const partits = await Partit.getHistorialUsuari(idUsuari);
+      res.json(partits);
+    } catch (error) {
+      console.error('Error obteniendo historial usuario:', error);
+      res.status(500).json({ message: 'Error del servidor' });
+    }
+  },
+
+  updEstat: (req, res) => {
+    const idPartit = req.params.id;
+    const { estat } = req.body;
+
+    if (typeof estat !== 'string') {
+      return res.status(400).json({ error: 'El camp estat ha de ser una cadena de text.' });
+    }
+
+    Partit.updateEstat(estat, idPartit, (err, result) => {
+      if (err) {
+        console.error('Error actualitzant estat partit:', err);
+        return res.status(500).json({ error: 'Error actualitzant estat partit' });
+      }
+      res.json({ message: 'Estat del partit actualitzat correctament' });
+    });
+  },
+
+  getPartidosCreados: async (req, res) => {
+    const idUsuari = req.params.idUsuari;
+    try {
+      const partits = await Partit.getPartidosCreados(idUsuari);
+      res.json(partits);
+    } catch (error) {
+      console.error('Error obteniendo partidos creados:', error);
+      res.status(500).json({ message: 'Error del servidor' });
+    }
+  },
+
   create: (req, res) => {
     const nouPartit = req.body;
     console.log('Dades per crear partit:', nouPartit);

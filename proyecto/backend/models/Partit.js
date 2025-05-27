@@ -2,7 +2,6 @@ const connection = require('../db');
 
 // Crear el modelo para la tabla Partit
 const Partit = {
-    // Método para obtener todos los partidos
     getAll: (callback) => {
         connection.query('SELECT * FROM Partit', (err, results) => {
             if (err) {
@@ -12,7 +11,6 @@ const Partit = {
         });
     },
 
-    // Método para obtener un partido por su id
     getById: (id, callback) => {
         connection.query('SELECT * FROM Partit WHERE id = ?', [id], (err, results) => {
             if (err) {
@@ -22,7 +20,6 @@ const Partit = {
         });
     },
 
-    // Obtener un partido por id_pista (nueva ruta)
     getByPista: (id_pista, callback) => {
         const query = 'SELECT * FROM partit WHERE id_pista = ?';
         connection.query(query, [id_pista], (err, results) => {
@@ -39,8 +36,49 @@ const Partit = {
         });
     },
 
+    getHistorialUsuari: (idUsuari) => {
+        return new Promise((resolve, reject) => {
+            const sql = `
+        SELECT DISTINCT p.id, p.nom, p.data_creacio as fecha, p.resultat as resultado, e.nom as deporte, ps.nom as pista
+        FROM partit p
+        JOIN esport e ON p.id_esport = e.id
+        JOIN pista ps ON p.id_pista = ps.id
+        JOIN usuariPartit up ON p.id = up.id_partit
+        WHERE up.id_usuari = ? AND p.estat = 'finalizado'
+        ORDER BY p.data_creacio DESC;
+      `;
+            connection.query(sql, [idUsuari], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        });
+    },
 
-    // Método para crear un nuevo partido
+    getPartidosCreados: (idUsuari) => {
+        return new Promise((resolve, reject) => {
+            const sql = `
+        SELECT p.id, p.nom, p.data_creacio AS fecha, p.resultat AS resultado, e.nom AS deporte, ps.nom AS pista, p.estat
+        FROM partit p
+        JOIN esport e ON p.id_esport = e.id
+        JOIN pista ps ON p.id_pista = ps.id
+        WHERE p.id_usuari_creador = ? AND p.estat = 'pendent'
+        ORDER BY p.data_creacio DESC;
+      `;
+            connection.query(sql, [idUsuari], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        });
+    },
+
+    updateEstat: (estat, idPartit, callback) => {
+        const query = 'UPDATE partit SET estat = ? WHERE id = ?';
+        connection.query(query, [estat, idPartit], (err, result) => {
+            if (err) return callback(err, null);
+            callback(null, result);
+        });
+    },
+
     create: (partit, callback) => {
         const { id_usuari_creador, id_esport, id_pista, nom, data_creacio, participants, preu, descripcio } = partit;
         const query = 'INSERT INTO partit (id_usuari_creador, id_esport, id_pista, nom, data_creacio, participants, preu, descripcio) VALUES(?, ?, ?, ?, ?, ?, ?, ?); ';

@@ -14,6 +14,7 @@ const Pista = {
             callback(null, results);
         });
     },
+    
     updateDisponibilitat: (id, disponibilitat, callback) => {
         const query = 'UPDATE pista SET disponibilitat = ? WHERE id = ?';
         connection.query(query, [disponibilitat, id], (err, result) => {

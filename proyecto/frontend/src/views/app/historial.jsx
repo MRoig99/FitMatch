@@ -1,77 +1,254 @@
-import { useState } from 'react'
-import '../../App.css'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import Lateral from '../../components/lateral'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Card,
+  Modal,
+  Form,
+} from 'react-bootstrap';
+import Lateral from '../../components/lateral';
 
 function Historial() {
-  const [showModal, setShowModal] = useState(false);
+  const [usuariId, setUsuariId] = useState(null);
+  const [tabActivo, setTabActivo] = useState('disputados');
+  const [partidosDisputados, setPartidosDisputados] = useState([]);
+  const [partidosCreados, setPartidosCreados] = useState([]);
+  const [showModalResultat, setShowModalResultat] = useState(false);
+  const [partitSeleccionado, setPartitSeleccionado] = useState(null);
+  const [resultatInput, setResultatInput] = useState('');
+
+  // Llegir usuariId de localStorage
+  useEffect(() => {
+    const usuariString = localStorage.getItem('usuari');
+    if (usuariString) {
+      try {
+        const usuariObj = JSON.parse(usuariString);
+        setUsuariId(usuariObj.id);
+      } catch (e) {
+        console.error('Error parsejant usuari de localStorage', e);
+      }
+    }
+  }, []);
+
+  // Carregar partits segons tabActivo i usuariId
+  useEffect(() => {
+    if (!usuariId) return;
+
+    if (tabActivo === 'disputados') {
+      axios
+        .get(`http://localhost:3000/partits/historial/${usuariId}`)
+        .then((res) => setPartidosDisputados(res.data))
+        .catch(() => setPartidosDisputados([]));
+    } else {
+      axios
+        .get(`http://localhost:3000/partits/creados/${usuariId}`)
+        .then((res) => setPartidosCreados(res.data))
+        .catch(() => setPartidosCreados([]));
+    }
+  }, [usuariId, tabActivo]);
+
+  // Cancel·lar partit: alliberar reserva, pista i posar estat a cancel·lat
+  const cancelarPartido = async (partit) => {
+    try {
+      const resReserva = await axios.get(`http://localhost:3000/reserves/partit/${partit.id}`);
+      const reserva = resReserva.data[0];
+      if (!reserva) throw new Error('Reserva no trobada');
+      const reservaDispo = await axios.patch(`http://localhost:3000/reserves/${reserva.id}`, { estat: 'cancelada' });
+      console.log(reservaDispo);
+      
+      await axios.patch(`http://localhost:3000/partits/${partit.id}`, { estat: 'cancelado' });
+
+      alert('Partit cancel·lat correctament.');
+
+      const res = await axios.get(`http://localhost:3000/partits/creados/${usuariId}`);
+      setPartidosCreados(res.data);
+    } catch (error) {
+      console.error('Error cancel·lant partit:', error);
+      alert('Error al cancel·lar el partit.');
+    }
+  };
+
+  const abrirModalResultado = (partit) => {
+    setPartitSeleccionado(partit);
+    setResultatInput('');
+    setShowModalResultat(true);
+  };
+
+  const confirmarResultado = async () => {
+    if (!resultatInput.trim()) {
+      alert('Introdueix un resultat vàlid.');
+      return;
+    }
+    try {
+      await axios.patch(`http://localhost:3000/partits/${partitSeleccionado.id}`, {
+        resultat: resultatInput.trim(),
+        estat: 'finalizado',
+      });
+      alert('Resultat actualitzat correctament.');
+      setShowModalResultat(false);
+
+      const res = await axios.get(`http://localhost:3000/partits/creados/${usuariId}`);
+      setPartidosCreados(res.data);
+    } catch (error) {
+      console.error('Error actualitzant resultat:', error);
+      alert('Error al actualitzar el resultat.');
+    }
+  };
+
+  // Renderitzar partits creats amb botons d'acció
+  const renderPartidosCreados = () => {
+    if (partidosCreados.length === 0)
+      return <p className="p-3 text-center">No has creat partits encara.</p>;
+
+    return partidosCreados.map((partit) => (
+      <Card
+        key={partit.id}
+        className="m-3 p-3 shadow-sm w-100 d-flex flex-column flex-md-row justify-content-between align-items-center"
+      >
+        <div style={{ flex: '1 1 auto' }}>
+          <p>
+            <strong>Data:</strong> {partit.fecha}
+          </p>
+          <p>
+            <strong>Pista:</strong> {partit.pista}
+          </p>
+          <p>
+            <strong>Resultat:</strong> {partit.resultado || 'Pendents'}
+          </p>
+          <p>
+            <strong>Esport:</strong> {partit.deporte}
+          </p>
+          <p>
+            <strong>Estat:</strong> {partit.estat}
+          </p>
+        </div>
+
+        <div style={{ minWidth: '180px', marginTop: '1rem' }}>
+          {partit.estat === 'pendent' && (
+            <Button variant="danger" onClick={() => cancelarPartido(partit)}>
+              Cancelar Partido
+            </Button>
+          )}
+          {partit.estat === 'en curs' && (
+            <Button variant="success" onClick={() => abrirModalResultado(partit)}>
+              Finalizar Partido
+            </Button>
+          )}
+        </div>
+      </Card>
+    ));
+  };
 
   return (
     <>
       <Container fluid>
         <Row className="full-height">
-          <Lateral />   
-          <Col xs="12" md="10" className='d-flex justify-content-center align-items-center contenidorAmbFormulari border border-black'>
-            <Form className=' formulari'>
-              <Card className='rounded-5 pt-2 colorPrincipal colorText cardForm'>
-                <Card.Body>
-                  <Card.Title className='text-center fs-2 mb-4 textApp'>
-                    Crear una partida
-                  </Card.Title>
-
-                  <Form.Group className="mb-3">
-                    <Form.Label className='textApp'>Esport</Form.Label>
-                    <Form.Select aria-label="Selecciona un esport">
-                      <option>Selecciona un esport</option>
-                      <option value="futbol">Futbol</option>
-                      <option value="basquet">Bàsquet</option>
-                      <option value="tenis">Tenis</option>
-                      <option value="padel">Pàdel</option>
-                      <option value="volei">Voleibol</option>
-                    </Form.Select>
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="loginPassword">
-                    <Form.Label className='textApp'>Ubicació</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Ubicació"
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="loginPassword">
-                    <Form.Label className='textApp'>Nº de jugadors</Form.Label>
-                    <Form.Control
-                      type="number"
-                      placeholder="Numero de jugadors requerit"
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="loginPassword">
-                    <Form.Label className='textApp'>Preu</Form.Label>
-                    <Form.Control
-                      type="number"
-                      placeholder="Preu de la partida"
-                    />
-                  </Form.Group>
-                  <div className='d-flex justify-content-center'>
-                    <Button className='boto mt-3 w-100' type="submit">
-                      Crea
+          <Lateral />
+          <Col md="1"></Col>
+          <Col xs="12" md="8">
+            <Row className="mt-5">
+              <Col>
+                <Card
+                  className="p-3 d-flex justify-content-center align-items-center"
+                  style={{ width: '100%', height: '90%' }}
+                >
+                  <div className="botones-historial">
+                    <Button
+                      variant={tabActivo === 'disputados' ? 'primary' : 'secondary'}
+                      onClick={() => setTabActivo('disputados')}
+                    >
+                      Historial
+                    </Button>
+                    <Button
+                      variant={tabActivo === 'creados' ? 'primary' : 'secondary'}
+                      onClick={() => setTabActivo('creados')}
+                    >
+                      Mis partidos
                     </Button>
                   </div>
-                </Card.Body>
-              </Card>
-            </Form>
+                </Card>
+              </Col>
+            </Row>
+
+            <Row className="mt-4">
+              <Col>
+                <Card
+                  style={{
+                    width: '100%',
+                    minHeight: '300px',
+                    maxHeight: '600px',
+                    overflowY: 'auto',
+                    overflowX: 'hidden',
+                  }}
+                >
+                  {tabActivo === 'disputados' ? (
+                    partidosDisputados.length === 0 ? (
+                      <p className="p-3 text-center">No hi ha partits disputats.</p>
+                    ) : (
+                      partidosDisputados.map(({ id, fecha, pista, resultado, deporte }) => (
+                        <Card key={id} className="m-3 p-3 shadow-sm">
+                          <Row>
+                            <Col xs={3}>
+                              <strong>Data:</strong> {fecha}
+                            </Col>
+                            <Col xs={3}>
+                              <strong>Pista:</strong> {pista}
+                            </Col>
+                            <Col xs={3}>
+                              <strong>Resultat:</strong> {resultado || 'Pendents'}
+                            </Col>
+                            <Col xs={3}>
+                              <strong>Esport:</strong> {deporte}
+                            </Col>
+                          </Row>
+                        </Card>
+                      ))
+                    )
+                  ) : (
+                    renderPartidosCreados()
+                  )}
+                </Card>
+              </Col>
+            </Row>
           </Col>
+          <Col md="1"></Col>
         </Row>
+
+        {/* Modal para introducir resultado */}
+        <Modal
+          show={showModalResultat}
+          onHide={() => setShowModalResultat(false)}
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Finalizar Partido</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group>
+              <Form.Label>Resultado</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Ejemplo: 3-1"
+                value={resultatInput}
+                onChange={(e) => setResultatInput(e.target.value)}
+              />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModalResultat(false)}>
+              Cancelar
+            </Button>
+            <Button variant="primary" onClick={confirmarResultado}>
+              Guardar Resultado
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </>
-  )
+  );
 }
 
 export default Historial;
