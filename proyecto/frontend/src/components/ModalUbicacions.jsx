@@ -55,7 +55,7 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
       id_esport: idEsport,
       id_pista: pistaSeleccionada.id,
       nom: `Partit de ${pistaSeleccionada.nom}`,
-      data_creacio: new Date().toISOString().slice(0, 19).replace('T', ' '),
+      data_creacio: dataSeleccionada,
       participants: 1,
       preu: pistaSeleccionada.preu_total,
       descripcio: 'PAPAFRITA'

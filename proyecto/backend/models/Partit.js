@@ -71,9 +71,25 @@ const Partit = {
         });
     },
 
-    updateEstat: (estat, idPartit, callback) => {
-        const query = 'UPDATE partit SET estat = ? WHERE id = ?';
-        connection.query(query, [estat, idPartit], (err, result) => {
+    updateEstat: (estat, resultat, idPartit, callback) => {
+        const updates = [];
+        const values = [];
+        console.log("HOLAA");
+        
+        if (estat !== undefined) {
+            updates.push('estat = ?');
+            values.push(estat);
+        }
+        if (resultat !== undefined) {
+            updates.push('resultat = ?');
+            values.push(resultat);
+        }
+        if (updates.length === 0) {
+            return callback(new Error('Hay que enviar al menos "estat" o "resultat"'), null);
+        }
+        const sql = `UPDATE partit SET ${updates.join(', ')} WHERE id = ?`;
+        values.push(idPartit);
+        connection.query(sql, values, (err, result) => {
             if (err) return callback(err, null);
             callback(null, result);
         });

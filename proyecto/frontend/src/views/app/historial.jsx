@@ -20,7 +20,7 @@ function Historial() {
   const [partitSeleccionado, setPartitSeleccionado] = useState(null);
   const [resultatInput, setResultatInput] = useState('');
 
-  // Llegir usuariId de localStorage
+  // Leer usuariId de localStorage
   useEffect(() => {
     const usuariString = localStorage.getItem('usuari');
     if (usuariString) {
@@ -33,7 +33,7 @@ function Historial() {
     }
   }, []);
 
-  // Carregar partits segons tabActivo i usuariId
+  // Cargar partits según tabActivo y usuariId
   useEffect(() => {
     if (!usuariId) return;
 
@@ -56,13 +56,10 @@ function Historial() {
       const resReserva = await axios.get(`http://localhost:3000/reserves/partit/${partit.id}`);
       const reserva = resReserva.data[0];
       if (!reserva) throw new Error('Reserva no trobada');
-      const reservaDispo = await axios.patch(`http://localhost:3000/reserves/${reserva.id}`, { estat: 'cancelada' });
-      console.log(reservaDispo);
-      
+      await axios.patch(`http://localhost:3000/reserves/${reserva.id}`, { estat: 'cancelada' });
       await axios.patch(`http://localhost:3000/partits/${partit.id}`, { estat: 'cancelado' });
 
       alert('Partit cancel·lat correctament.');
-
       const res = await axios.get(`http://localhost:3000/partits/creados/${usuariId}`);
       setPartidosCreados(res.data);
     } catch (error) {
@@ -97,49 +94,63 @@ function Historial() {
       alert('Error al actualitzar el resultat.');
     }
   };
-
-  // Renderitzar partits creats amb botons d'acció
+  
+  // Renderizar partidos creados con lógica de fecha y estado
   const renderPartidosCreados = () => {
     if (partidosCreados.length === 0)
       return <p className="p-3 text-center">No has creat partits encara.</p>;
 
-    return partidosCreados.map((partit) => (
-      <Card
-        key={partit.id}
-        className="m-3 p-3 shadow-sm w-100 d-flex flex-column flex-md-row justify-content-between align-items-center"
-      >
-        <div style={{ flex: '1 1 auto' }}>
-          <p>
-            <strong>Data:</strong> {partit.fecha}
-          </p>
-          <p>
-            <strong>Pista:</strong> {partit.pista}
-          </p>
-          <p>
-            <strong>Resultat:</strong> {partit.resultado || 'Pendents'}
-          </p>
-          <p>
-            <strong>Esport:</strong> {partit.deporte}
-          </p>
-          <p>
-            <strong>Estat:</strong> {partit.estat}
-          </p>
-        </div>
+    const now = new Date();
+    // Filtrar solo los partidos que el usuario puede cancelar o finalizar
+    const relevantes = partidosCreados.filter((partit) => {
+      
+      const matchDate = new Date(partit.fecha);
+      // Pendientes y con fecha futura para cancelar
+      if (partit.estat === 'pendent' &&  matchDate > now) return true;
+      // En curso, creador y con al menos 1.5h transcurridas para finalizar
+      if (
+        partit.estat === 'en curs' &&
+        (now.getTime() - matchDate.getTime()) >= 1.5 * 60 * 60 * 1000) return true;
+      
+      return false;
+    });
 
-        <div style={{ minWidth: '180px', marginTop: '1rem' }}>
-          {partit.estat === 'pendent' && (
-            <Button variant="danger" onClick={() => cancelarPartido(partit)}>
-              Cancelar Partido
-            </Button>
-          )}
-          {partit.estat === 'en curs' && (
-            <Button variant="success" onClick={() => abrirModalResultado(partit)}>
-              Finalizar Partido
-            </Button>
-          )}
-        </div>
-      </Card>
-    ));
+    if (relevantes.length === 0)
+      return <p className="p-3 text-center">No hi ha partits pendents o en curs per gestionar.</p>;
+  
+    return relevantes.map((partit) => {
+      console.log(partit);
+      const matchDate = new Date(partit.fecha);
+      const showCancel = partit.estat === 'en curs';
+      const showFinish = partit.estat === 'pendent';
+
+      return (
+        <Card
+          key={partit.id}
+          className="m-3 p-3 shadow-sm w-100 d-flex flex-column flex-md-row justify-content-between align-items-center"
+        >
+          <div style={{ flex: '1 1 auto' }}>
+            <p><strong>Data:</strong> {partit.fecha}</p>
+            <p><strong>Pista:</strong> {partit.pista}</p>
+            <p><strong>Resultat:</strong> {partit.resultado || 'Pendents'}</p>
+            <p><strong>Esport:</strong> {partit.deporte}</p>
+          </div>
+
+          <div style={{ minWidth: '180px', marginTop: '1rem' }}>
+            {showCancel && (
+              <Button variant="danger" onClick={() => cancelarPartido(partit)}>
+                Cancelar Partido
+              </Button>
+            )}
+            {showFinish && (
+              <Button variant="success" onClick={() => abrirModalResultado(partit)}>
+                Finalizar Partido
+              </Button>
+            )}
+          </div>
+        </Card>
+      );
+    });
   };
 
   return (
@@ -191,18 +202,10 @@ function Historial() {
                       partidosDisputados.map(({ id, fecha, pista, resultado, deporte }) => (
                         <Card key={id} className="m-3 p-3 shadow-sm">
                           <Row>
-                            <Col xs={3}>
-                              <strong>Data:</strong> {fecha}
-                            </Col>
-                            <Col xs={3}>
-                              <strong>Pista:</strong> {pista}
-                            </Col>
-                            <Col xs={3}>
-                              <strong>Resultat:</strong> {resultado || 'Pendents'}
-                            </Col>
-                            <Col xs={3}>
-                              <strong>Esport:</strong> {deporte}
-                            </Col>
+                            <Col xs={3}><strong>Data:</strong> {fecha}</Col>
+                            <Col xs={3}><strong>Pista:</strong> {pista}</Col>
+                            <Col xs={3}><strong>Resultat:</strong> {resultado || 'Pendents'}</Col>
+                            <Col xs={3}><strong>Esport:</strong> {deporte}</Col>
                           </Row>
                         </Card>
                       ))

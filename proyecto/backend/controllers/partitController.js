@@ -50,13 +50,9 @@ const partitController = {
 
   updEstat: (req, res) => {
     const idPartit = req.params.id;
-    const { estat } = req.body;
+    const { estat, resultat } = req.body;
 
-    if (typeof estat !== 'string') {
-      return res.status(400).json({ error: 'El camp estat ha de ser una cadena de text.' });
-    }
-
-    Partit.updateEstat(estat, idPartit, (err, result) => {
+    Partit.updateEstat(estat,resultat, idPartit, (err, result) => {
       if (err) {
         console.error('Error actualitzant estat partit:', err);
         return res.status(500).json({ error: 'Error actualitzant estat partit' });
