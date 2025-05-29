@@ -43,8 +43,8 @@ const Partit = {
         FROM partit p
         JOIN esport e ON p.id_esport = e.id
         JOIN pista ps ON p.id_pista = ps.id
-        JOIN usuariPartit up ON p.id = up.id_partit
-        WHERE up.id_usuari = ? AND p.estat = 'finalizado'
+        JOIN usuari_partit up ON p.id = up.id_partit
+        WHERE up.id_usuari = ? AND p.estat = 'finalizat'
         ORDER BY p.data_creacio DESC;
       `;
             connection.query(sql, [idUsuari], (err, results) => {
