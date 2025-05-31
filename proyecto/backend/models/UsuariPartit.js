@@ -47,8 +47,9 @@ const UsuariPartit = {
         });
     },
 
-    delete: (id, callback) => {
-        connection.query('DELETE FROM usuari_partit WHERE id = ?', [id], (err, results) => {
+    deleteByUsuariAndPartit: (idUsuari, idPartit, callback) => {
+        const sql = 'DELETE FROM usuari_partit WHERE id_usuari = ? AND id_partit = ?';
+        connection.query(sql, [idUsuari, idPartit], (err, results) => {
             if (err) {
                 return callback(err, null);
             }

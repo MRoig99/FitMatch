@@ -62,7 +62,6 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
     })
     .then(resPartit => {
       idPartitCreat = resPartit.data.id;
-      // Afegeix el patch per marcar la pista com a no disponible
       return axios.patch(`http://localhost:3000/pistas/${pistaSeleccionada.id}`, {
         disponibilitat: false
       });
@@ -80,7 +79,6 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
     })
     .then(() => {
       console.log(idPartitCreat);
-      // Assigna usuari al partit
       return axios.post('http://localhost:3000/usuariPartit', {
         id_usuari: usuariId,
         id_partit: idPartitCreat

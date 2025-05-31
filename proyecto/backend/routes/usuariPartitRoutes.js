@@ -8,7 +8,7 @@ router.get('/partit/:id_partit', usuariPartitController.getByPartido);
 
 router.get('/usuari/:id_usuari', usuariPartitController.getByUsuario);
 
-router.delete('/:id', usuariPartitController.delete);
+router.delete('/', usuariPartitController.delete);
 
 router.get('/filter', usuariPartitController.getByUsuarioPartit);
 

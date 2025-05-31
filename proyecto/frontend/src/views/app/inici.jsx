@@ -19,7 +19,6 @@ function BuscarPartit() {
   const [showModal, setShowModal] = useState(false);
   const [usuariId, setUsuariId] = useState(null);
 
-  // Carrega l'ID de l'usuari des del localStorage
   useEffect(() => {
     const usuariString = localStorage.getItem('usuari');
     if (usuariString) {
@@ -35,7 +34,6 @@ function BuscarPartit() {
       .catch(err => console.error('Error carregant esports:', err));
   }, []);
 
-  // Suggeriments d'ubicacions segons la cerca
   useEffect(() => {
     if (busqueda.length >= 2) {
       axios.get('http://localhost:3000/ubicacions')

@@ -36,6 +36,14 @@ const Partit = {
         });
     },
 
+    decrementParticipants: (id_partit, callback) => {
+        const sql = 'UPDATE partit SET participants = participants - 1 WHERE id = ?';
+        connection.query(sql, [id_partit], (err, results) => {
+            if (err) return callback(err);
+            callback(null);
+        });
+    },
+
     getHistorialUsuari: (idUsuari) => {
         return new Promise((resolve, reject) => {
             const sql = `
@@ -57,7 +65,7 @@ const Partit = {
     getPartidosCreados: (idUsuari) => {
         return new Promise((resolve, reject) => {
             const sql = `
-        SELECT p.id, p.nom, p.data_creacio AS fecha, p.resultat AS resultado, e.nom AS deporte, ps.nom AS pista, p.estat
+        SELECT p.id, p.nom, p.id_pista, p.id_usuari_creador, p.data_creacio AS fecha, p.resultat AS resultado, e.nom AS deporte, ps.nom AS pista, p.estat
         FROM partit p
         JOIN esport e ON p.id_esport = e.id
         JOIN pista ps ON p.id_pista = ps.id
@@ -71,11 +79,40 @@ const Partit = {
         });
     },
 
+    getPartidosPendientesUsuario: (idUsuari) => {
+        return new Promise((resolve, reject) => {
+            const sql = `
+        SELECT
+          p.id,
+          p.nom,
+          p.id_usuari_creador,
+          p.id_pista,
+          p.data_creacio AS fecha,
+          p.resultat AS resultado,
+          p.estat,
+          e.nom AS deporte,
+          ps.nom AS pista
+        FROM partit p
+        JOIN esport e ON p.id_esport = e.id
+        JOIN pista ps ON p.id_pista = ps.id
+        JOIN usuari_partit up ON p.id = up.id_partit
+        WHERE up.id_usuari = ?
+          AND p.id_usuari_creador != ?
+          AND p.estat = 'pendent'
+        ORDER BY p.data_creacio DESC;
+      `;
+            connection.query(sql, [idUsuari, idUsuari], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        });
+    },
+
     updateEstat: (estat, resultat, idPartit, callback) => {
         const updates = [];
         const values = [];
         console.log("HOLAA");
-        
+
         if (estat !== undefined) {
             updates.push('estat = ?');
             values.push(estat);

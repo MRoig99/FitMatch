@@ -36,6 +36,17 @@ const partitController = {
       res.json({ message: 'Participants incrementats correctament.' });
     });
   },
+  
+  decrementParticipants: (req, res) => {
+    const id_partit = req.params.id;
+    Partit.decrementParticipants(id_partit, (err, result) => {
+      if (err) {
+        console.error('Error decrementant participants:', err);
+        return res.status(500).json({ error: 'Error decrementant participants.' });
+      }
+      res.json({ message: 'Participants decrementats correctament.' });
+    });
+  },
 
   getHistorialUsuari: async (req, res) => {
     const idUsuari = req.params.idUsuari;
@@ -68,6 +79,20 @@ const partitController = {
       res.json(partits);
     } catch (error) {
       console.error('Error obteniendo partidos creados:', error);
+      res.status(500).json({ message: 'Error del servidor' });
+    }
+  },
+
+  getMisPartidos: async (req, res) => {
+    const idUsuari = req.params.idUsuari;
+    try {
+      const creados = await Partit.getPartidosCreados(idUsuari);
+      const unidos = await Partit.getPartidosPendientesUsuario(idUsuari);
+
+      const todos = [...creados, ...unidos];
+      res.json(todos);
+    } catch (error) {
+      console.error('Error obteniendo Mis partidos:', error);
       res.status(500).json({ message: 'Error del servidor' });
     }
   },

@@ -5,7 +5,6 @@ import {
   Row,
   Col,
   Button,
-  ButtonGroup,
   Card,
   Modal,
   Form,
@@ -28,13 +27,13 @@ function Historial() {
   const formatDate = (dateString) => {
     const d = new Date(dateString);
     return d.toLocaleDateString('es-ES', {
-      day:   '2-digit',
+      day: '2-digit',
       month: '2-digit',
-      year:  'numeric',
+      year: 'numeric',
     });
   };
 
-  // Leer usuariId
+  // Leer usuariId del localStorage
   useEffect(() => {
     const usuariString = localStorage.getItem('usuari');
     if (usuariString) {
@@ -48,77 +47,108 @@ function Historial() {
   useEffect(() => {
     if (!usuariId) return;
     setPage(1);
-    const ruta =
-      tabActivo === 'disputados'
-        ? `/partits/historial/${usuariId}`
-        : `/partits/creados/${usuariId}`;
-    axios.get(`http://localhost:3000${ruta}`)
-      .then((res) => {
-        if (tabActivo === 'disputados') setPartidosDisputados(res.data);
-        else setPartidosCreados(res.data);
-      })
-      .catch(() => {
-        if (tabActivo === 'disputados') setPartidosDisputados([]);
-        else setPartidosCreados([]);
-      });
+
+    if (tabActivo === 'disputados') {
+      axios
+        .get(`http://localhost:3000/partits/historial/${usuariId}`)
+        .then((res) => setPartidosDisputados(res.data))
+        .catch(() => setPartidosDisputados([]));
+    } else {
+      // Usamos la ruta "mis-partidos"
+      axios
+        .get(`http://localhost:3000/partits/mis-partidos/${usuariId}`)
+        .then((res) => setPartidosCreados(res.data))
+        .catch(() => setPartidosCreados([]));
+    }
   }, [usuariId, tabActivo]);
 
-  // Cancelar partido
   const cancelarPartido = async (p) => {
     try {
-      const { data: [reserva] } = await axios.get(
-        `http://localhost:3000/reserves/partit/${p.id}`
-      );
-      if (!reserva) throw new Error();
-      await axios.patch(
-        `http://localhost:3000/reserves/${reserva.id}`,
-        { estat: 'cancelada' }
-      );
-      await axios.patch(
-        `http://localhost:3000/partits/${p.id}`,
-        { estat: 'cancelado' }
-      );
-      alert('Partit cancel·lat.');
-      const { data } = await axios.get(
-        `http://localhost:3000/partits/creados/${usuariId}`
-      );
-      setPartidosCreados(data);
-    } catch {
-      alert('Error cancel·lant.');
+      if (p.id_usuari_creador === usuariId) {
+        const { data: [reserva] } = await axios.get(
+          `http://localhost:3000/reserves/partit/${p.id}`
+        );
+        if (!reserva) throw new Error();
+
+        await axios.patch(
+          `http://localhost:3000/reserves/${reserva.id}`,
+          { estat: 'cancelada' }
+        );
+        // 2. Actualitzar estat del partit a "cancelado"
+        await axios.patch(
+          `http://localhost:3000/partits/${p.id}`,
+          { estat: 'cancelado' }
+        );
+        console.log(p);
+        
+        if (p.id_pista) {
+          await axios.patch(
+            `http://localhost:3000/pistas/${p.id_pista}`,
+            { disponibilitat: true }
+          );
+        }
+        alert('Partit cancel·lat correctament i pista disponible.');
+        // 4. Refrescar llista de "Mis partidos"
+        const { data } = await axios.get(
+          `http://localhost:3000/partits/mis-partidos/${usuariId}`
+        );
+        setPartidosCreados(data);
+      } else {
+        // Usuario normal se "da de baja"
+        await axios.delete('http://localhost:3000/usuariPartit', {
+          params: { id_usuari: usuariId, id_partit: p.id },
+        });
+        // Decrementar participants
+        await axios.post(
+          `http://localhost:3000/partits/${p.id}/decrementParticipants`
+        );
+        alert('T’has donat de baixa del partit.');
+        // Refrescar “Mis partidos”
+        const { data } = await axios.get(
+          `http://localhost:3000/partits/mis-partidos/${usuariId}`
+        );
+        setPartidosCreados(data);
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Error al processar la cancel·lació o baixa.');
     }
   };
 
-  // Finalizar partido
+  // Abrir modal para introducir resultado
   const abrirModalResultado = (p) => {
     setPartitSeleccionado(p);
     setResultatInput('');
     setShowModalResultat(true);
   };
+
+  // Confirmar resultado (sólo creador)
   const confirmarResultado = async () => {
     if (!resultatInput.trim()) {
-      return alert('Introdueix un resultat.');
+      return alert('Introdueix un resultat vàlid.');
     }
     try {
       await axios.patch(
         `http://localhost:3000/partits/${partitSeleccionado.id}`,
         { resultat: resultatInput.trim(), estat: 'finalizado' }
       );
-      alert('Resultat guardat.');
+      alert('Resultat guardat correctament.');
       setShowModalResultat(false);
+      // Refrescar “Mis partidos”
       const { data } = await axios.get(
-        `http://localhost:3000/partits/creados/${usuariId}`
+        `http://localhost:3000/partits/mis-partidos/${usuariId}`
       );
       setPartidosCreados(data);
     } catch {
-      alert('Error guardant resultat.');
+      alert('Error guardant el resultat.');
     }
   };
 
-  // Preparar paginación
+  // Paginación
   const lista = tabActivo === 'disputados' ? partidosDisputados : partidosCreados;
   const totalPages = Math.ceil(lista.length / ITEMS_PER_PAGE);
-  const start = (page - 1) * ITEMS_PER_PAGE;
-  const paged = lista.slice(start, start + ITEMS_PER_PAGE);
+  const startIdx = (page - 1) * ITEMS_PER_PAGE;
+  const paged = lista.slice(startIdx, startIdx + ITEMS_PER_PAGE);
 
   return (
     <Container fluid className="pb-5">
@@ -144,36 +174,56 @@ function Historial() {
             </Button>
           </div>
 
-          {/* Listado */}
+          {/* Listado paginado */}
           <Row className="gy-3">
             {paged.length === 0 && (
               <Col xs={12}>
                 <p className="p-3 text-center">
                   {tabActivo === 'disputados'
                     ? 'No hi ha partits disputats.'
-                    : 'No has creat partits.'}
+                    : 'No has creat ni t’has unit a partits pendents.'}
                 </p>
               </Col>
             )}
-            {paged.map(p => {
+            {paged.map((p) => {
               const ts = new Date(p.fecha).getTime();
               const now = Date.now();
-              const canCancel = tabActivo === 'creados' && p.estat === 'pendent' && ts > now;
-              const canFinish = tabActivo === 'creados' && p.estat === 'pendent' && now - ts >= 1.5 * 3600e3;
+
+              // Determinar si el current user es creador
+              const isCreator = p.id_usuari_creador === usuariId;
+              // Solo creador puede cancelar si es futuro
+              const canCancel = isCreator && p.estat === 'pendent' && ts > now;
+              // Solo creador puede finalizar si han pasado ≥ 1.5h
+              const canFinish =
+                isCreator && p.estat === 'pendent' && now - ts >= 1.5 * 3600e3;
+              // Si no es creator y está pendiente, puede "darse de baja"
+              const canUnjoin = !isCreator && p.estat === 'pendent';
 
               return (
                 <Col xs={12} key={p.id}>
                   <Card className="w-100 shadow-sm">
                     <Card.Body className="d-flex flex-column flex-md-row justify-content-between">
                       <div>
-                        {tabActivo === 'disputados' && <p><strong>Nom:</strong> {p.nom}</p>}
-                        <p><strong>Data:</strong> {formatDate(p.fecha)}</p>
+                        {tabActivo === 'disputados' && (
+                          <p>
+                            <strong>Nom:</strong> {p.nom}
+                          </p>
+                        )}
+                        <p>
+                          <strong>Data:</strong> {formatDate(p.fecha)}
+                        </p>
                         {tabActivo === 'disputados' ? (
-                          <p><strong>Resultat:</strong> {p.resultado}</p>
+                          <p>
+                            <strong>Resultat:</strong> {p.resultado}
+                          </p>
                         ) : (
                           <>
-                            <p><strong>Resultat:</strong> {p.resultado || 'Pendents'}</p>
-                            <p><strong>Esport:</strong> {p.deporte}</p>
+                            <p>
+                              <strong>Resultat:</strong> {p.resultado || 'Pendents'}
+                            </p>
+                            <p>
+                              <strong>Esport:</strong> {p.deporte}
+                            </p>
                           </>
                         )}
                       </div>
@@ -196,6 +246,14 @@ function Historial() {
                               Finalizar
                             </Button>
                           )}
+                          {canUnjoin && (
+                            <Button
+                              variant="warning"
+                              onClick={() => cancelarPartido(p)}
+                            >
+                              Donar-me de baixa
+                            </Button>
+                          )}
                         </div>
                       )}
                     </Card.Body>
@@ -205,7 +263,7 @@ function Historial() {
             })}
           </Row>
 
-          {/* Paginación móvil/amplio */}
+          {/* Paginación (móvil, completa ancho) */}
           {totalPages > 1 && (
             <Row className="mt-4 mb-5">
               <Col xs={4} className="px-1">
@@ -236,7 +294,7 @@ function Historial() {
             </Row>
           )}
 
-          {/* Modal Finalizar */}
+          {/* Modal para introducir resultado */}
           <Modal
             show={showModalResultat}
             onHide={() => setShowModalResultat(false)}
@@ -257,7 +315,10 @@ function Historial() {
               </Form.Group>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={() => setShowModalResultat(false)}>
+              <Button
+                variant="secondary"
+                onClick={() => setShowModalResultat(false)}
+              >
                 Cancelar
               </Button>
               <Button variant="primary" onClick={confirmarResultado}>

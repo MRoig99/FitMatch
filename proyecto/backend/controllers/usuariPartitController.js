@@ -54,15 +54,24 @@ const usuariPartitController = {
     },
 
     delete: (req, res) => {
-        const { id } = req.params;
+        const { id_usuari, id_partit } = req.query;
 
-        UsuariPartit.delete(id, (err, result) => {
+        if (!id_usuari || !id_partit) {
+            return res.status(400).json({ error: 'Falten id_usuari o id_partit en la query.' });
+        }
+
+        UsuariPartit.deleteByUsuariAndPartit(id_usuari, id_partit, (err, result) => {
             if (err) {
-                return res.status(500).json({ error: 'Error al eliminar el registro.' });
+                console.error('Error al eliminar el registro usuari_partit:', err);
+                return res.status(500).json({ error: 'Error al eliminar el registre.' });
             }
-            res.status(200).json({ message: 'Registro eliminado correctamente' });
+            
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: 'No s’ha trobat cap registre per a aquests IDs.' });
+            }
+            res.status(200).json({ message: 'Registre eliminat correctament' });
         });
-    }
+    },
 };
 
 module.exports = usuariPartitController;
