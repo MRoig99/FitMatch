@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Card, Button, Row, Col, Form, Container } from 'react-bootstrap';
 import axios from 'axios';
 import ModalConfirmarReserva from './ModalConfirmarReserva';
@@ -8,14 +8,10 @@ const ModalBuscarPartits = ({ show, onHide, ciutat, idEsport, usuariId }) => {
     new Date().toISOString().split('T')[0]
   );
   const [pistesReservades, setPistesReservades] = useState([]);
-  
-  // Map que emmagatzema: { [id_pista]: nombre_de_participants }
   const [participantsMap, setParticipantsMap] = useState({});
-  
   const [showConfirm, setShowConfirm] = useState(false);
   const [pistaSeleccionada, setPistaSeleccionada] = useState(null);
 
-  // 1) Quan s’obre el modal o canvia la data/ciutat/esport → fem GET a pistes/reservades
   useEffect(() => {
     if (show && ciutat && idEsport && dataSeleccionada) {
       axios
@@ -24,41 +20,61 @@ const ModalBuscarPartits = ({ show, onHide, ciutat, idEsport, usuariId }) => {
         })
         .then((res) => {
           const arrPistes = res.data;
-          setPistesReservades(arrPistes);
-          // Després de carregar-les, hi a afegir el nombre de participants per a cada pista
-          // 2) Fem una petició per cada pista per obtenir el `partit` i extreure `participants`
+
+          // Cridem per obtenir els partits associats a cada pista
           const promeses = arrPistes.map((pista) =>
             axios
               .get(`http://localhost:3000/partits/pista/${pista.id}`)
               .then((resPartit) => {
-                // Suposem que la petició retorna { id, participants, ... }
                 const partit = resPartit.data;
-                return { id_pista: pista.id, participants: partit.participants || 0 };
+                return {
+                  id_pista: pista.id,
+                  participants: partit?.participants || 0,
+                  estat: partit?.estat || null,
+                  maxParticipants: pista.jugadors_necessaris,
+                };
               })
-              .catch(() => {
-                // Si no existeix cap partit (o error), considerem participants = 0
-                return { id_pista: pista.id, participants: 0 };
-              })
+              .catch(() => ({
+                id_pista: pista.id,
+                participants: 0,
+                estat: null,
+                maxParticipants: pista.jugadors_necessaris,
+              }))
           );
+
           Promise.all(promeses).then((arr) => {
-            // Convertim l’array a un objecte { [id_pista]: participants }
+            // Filtrar només les pistes amb partits actius (no finalitzats ni cancel·lats)
+            const pistesActives = arr.filter(
+              ({ estat }) => estat !== 'finalizado' && estat !== 'cancelado'
+            );
+
+            // Actualitzar el map de participants
             const nouMap = {};
-            arr.forEach(({ id_pista, participants }) => {
+            pistesActives.forEach(({ id_pista, participants }) => {
               nouMap[id_pista] = participants;
             });
             setParticipantsMap(nouMap);
+
+            // Filtrar la llista original de pistes per mostrar només les actives
+            const pistesFiltrades = arrPistes.filter((pista) =>
+              pistesActives.some((activa) => activa.id_pista === pista.id)
+            );
+
+            setPistesReservades(pistesFiltrades);
           });
         })
-        .catch((err) => console.error('Error carregant partits:', err));
+        .catch((err) => {
+          console.error('Error carregant partits:', err);
+          setPistesReservades([]);
+          setParticipantsMap({});
+        });
     } else {
-      // Si tanquem el modal, netegem les dades
       setPistesReservades([]);
       setParticipantsMap({});
     }
   }, [show, ciutat, idEsport, dataSeleccionada]);
 
   const handleReservar = (pista) => {
-    // Ara comprovem si el nombre actual de participants < màxim de la pista
     const actualParticipants = participantsMap[pista.id] || 0;
     if (actualParticipants < pista.jugadors_necessaris) {
       setPistaSeleccionada(pista);
@@ -74,20 +90,17 @@ const ModalBuscarPartits = ({ show, onHide, ciutat, idEsport, usuariId }) => {
       return;
     }
     try {
-      // 1) Obtenim el partit associat a aquesta pista
       const { data: partit } = await axios.get(
         `http://localhost:3000/partits/pista/${pistaSeleccionada.id}`
       );
       const idPartit = partit.id;
 
-      // 2) Comprovem que l’usuari no sigui el creador
       if (partit.id_usuari_creador === usuariId) {
         alert('No pots unir-te al teu propi partit.');
         setShowConfirm(false);
         return;
       }
 
-      // 3) Comprovem si ja està unit a aquest partit
       const { data: up } = await axios.get(
         'http://localhost:3000/usuariPartit/filter',
         { params: { id_usuari: usuariId, id_partit: idPartit } }
@@ -98,7 +111,6 @@ const ModalBuscarPartits = ({ show, onHide, ciutat, idEsport, usuariId }) => {
         return;
       }
 
-      // 4) Creem la reserva
       await axios.post('http://localhost:3000/reserves', {
         id_usuari: usuariId,
         id_partit: idPartit,
@@ -108,13 +120,11 @@ const ModalBuscarPartits = ({ show, onHide, ciutat, idEsport, usuariId }) => {
         id_estat_reserva: 1,
       });
 
-      // 5) Afegim l’usuari a la taula usuariPartit
       await axios.post('http://localhost:3000/usuariPartit', {
         id_usuari: usuariId,
         id_partit: idPartit,
       });
 
-      // 6) Incrementem el camp participants del partit
       await axios.post(
         `http://localhost:3000/partits/${idPartit}/incrementParticipants`
       );
@@ -164,7 +174,6 @@ const ModalBuscarPartits = ({ show, onHide, ciutat, idEsport, usuariId }) => {
             ) : (
               <Row className="gy-3">
                 {pistesReservades.map((pista) => {
-                  // Obtenim el nombre actual de participants per a aquesta pista
                   const actualParticipants = participantsMap[pista.id] || 0;
                   return (
                     <Col xs={12} key={pista.id}>

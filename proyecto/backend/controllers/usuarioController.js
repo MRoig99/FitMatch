@@ -1,4 +1,5 @@
 const Usuario = require('../models/Usuario');
+const bcrypt = require('bcryptjs');
 
 const usuarioController = {
     getAll: (req, res) => {
@@ -64,12 +65,17 @@ const usuarioController = {
                 return res.status(401).json({ message: 'Credenciales incorrectas.' });
             }
 
-            if (usuari.contrasenya !== password) {
-                return res.status(401).json({ message: 'Credenciales incorrectas.' });
-            }
+            bcrypt.compare(password, usuari.contrasenya, (err, isMatch) => {
+                if (err) {
+                    return res.status(500).json({ error: 'Error al comparar contraseñas.' });
+                }
+                if (!isMatch) {
+                    return res.status(401).json({ message: 'Credenciales incorrectas.' });
+                }
 
-            const { contrasenya, ...usuariSensePassword } = usuari;
-            res.json({ usuari: usuariSensePassword });
+                const { contrasenya, ...usuariSensePassword } = usuari;
+                res.json({ usuari: usuariSensePassword });
+            });
         });
     }
 };

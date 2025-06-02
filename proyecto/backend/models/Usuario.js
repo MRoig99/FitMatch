@@ -1,8 +1,6 @@
 const connection = require('../db');
 
-// Crear el modelo para la tabla Usuario
 const Usuario = {
-    // Método para obtener todos los usuarios
     getAll: (callback) => {
         connection.query('SELECT * FROM usuarios', (err, results) => {
             if (err) {
@@ -12,7 +10,6 @@ const Usuario = {
         });
     },
 
-    // Método para obtener un usuario por su id
     getById: (id, callback) => {
         connection.query('SELECT * FROM usuarios WHERE id = ?', [id], (err, results) => {
             if (err) {
@@ -22,7 +19,6 @@ const Usuario = {
         });
     },
 
-    // Método para crear un nuevo usuario
     create: (usuario, callback) => {
         const { nom, cognom, edat, contrasenya, correu_electronic } = usuario;
         const query = 'INSERT INTO usuarios (nom, cognom, edat, contrasenya, correu_electronic) VALUES (?, ?, ?, ?, ?)';
@@ -34,7 +30,6 @@ const Usuario = {
         });
     },
 
-    // Método para buscar un usuario por su email
     findByEmail: (email, callback) => {
         const query = 'SELECT * FROM usuarios WHERE correu_electronic = ? LIMIT 1';
         connection.query(query, [email], (err, results) => {

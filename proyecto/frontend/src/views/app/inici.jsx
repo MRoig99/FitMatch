@@ -27,7 +27,6 @@ function BuscarPartit() {
     }
   }, []);
 
-  // Carrega llista d'esports
   useEffect(() => {
     axios.get('http://localhost:3000/esports')
       .then(res => setEsports(res.data))

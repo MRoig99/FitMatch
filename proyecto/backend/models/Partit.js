@@ -47,14 +47,23 @@ const Partit = {
     getHistorialUsuari: (idUsuari) => {
         return new Promise((resolve, reject) => {
             const sql = `
-        SELECT DISTINCT p.id, p.nom, p.data_creacio as fecha, p.resultat as resultado, e.nom as deporte, ps.nom as pista
-        FROM partit p
-        JOIN esport e ON p.id_esport = e.id
-        JOIN pista ps ON p.id_pista = ps.id
-        JOIN usuari_partit up ON p.id = up.id_partit
-        WHERE up.id_usuari = ? AND p.estat = 'finalizat'
-        ORDER BY p.data_creacio DESC;
-      `;
+      SELECT DISTINCT
+        p.id,
+        p.nom,
+        p.data_creacio    AS fecha,
+        p.resultat        AS resultado,
+        e.nom             AS deporte,
+        ps.nom            AS pista,
+        u.nom             AS ubicacio
+      FROM partit p
+      JOIN esport e        ON p.id_esport    = e.id
+      JOIN pista ps        ON p.id_pista     = ps.id
+      JOIN ubicacio u      ON ps.idUbicacio = u.id
+      JOIN usuari_partit up ON p.id          = up.id_partit
+      WHERE up.id_usuari   = ?
+        AND p.estat       = 'finalizado'
+      ORDER BY p.data_creacio DESC;
+    `;
             connection.query(sql, [idUsuari], (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
@@ -62,16 +71,20 @@ const Partit = {
         });
     },
 
+
     getPartidosCreados: (idUsuari) => {
         return new Promise((resolve, reject) => {
             const sql = `
-        SELECT p.id, p.nom, p.id_pista, p.id_usuari_creador, p.data_creacio AS fecha, p.resultat AS resultado, e.nom AS deporte, ps.nom AS pista, p.estat
-        FROM partit p
-        JOIN esport e ON p.id_esport = e.id
-        JOIN pista ps ON p.id_pista = ps.id
-        WHERE p.id_usuari_creador = ? AND p.estat = 'pendent'
-        ORDER BY p.data_creacio DESC;
-      `;
+      SELECT 
+        p.id, p.nom, p.id_pista, p.id_usuari_creador, p.data_creacio AS fecha, p.resultat AS resultado, 
+        e.nom AS deporte, ps.nom AS pista, u.nom AS ubicacio, p.estat
+      FROM partit p
+      JOIN esport e ON p.id_esport = e.id
+      JOIN pista ps ON p.id_pista = ps.id
+      JOIN ubicacio u ON ps.idUbicacio = u.id
+      WHERE p.id_usuari_creador = ? AND p.estat = 'pendent'
+      ORDER BY p.data_creacio DESC;
+    `;
             connection.query(sql, [idUsuari], (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
@@ -82,31 +95,34 @@ const Partit = {
     getPartidosPendientesUsuario: (idUsuari) => {
         return new Promise((resolve, reject) => {
             const sql = `
-        SELECT
-          p.id,
-          p.nom,
-          p.id_usuari_creador,
-          p.id_pista,
-          p.data_creacio AS fecha,
-          p.resultat AS resultado,
-          p.estat,
-          e.nom AS deporte,
-          ps.nom AS pista
-        FROM partit p
-        JOIN esport e ON p.id_esport = e.id
-        JOIN pista ps ON p.id_pista = ps.id
-        JOIN usuari_partit up ON p.id = up.id_partit
-        WHERE up.id_usuari = ?
-          AND p.id_usuari_creador != ?
-          AND p.estat = 'pendent'
-        ORDER BY p.data_creacio DESC;
-      `;
+      SELECT
+        p.id,
+        p.nom,
+        p.id_usuari_creador,
+        p.id_pista,
+        p.data_creacio AS fecha,
+        p.resultat AS resultado,
+        p.estat,
+        e.nom AS deporte,
+        ps.nom AS pista,
+        u.nom AS ubicacio
+      FROM partit p
+      JOIN esport e ON p.id_esport = e.id
+      JOIN pista ps ON p.id_pista = ps.id
+      JOIN ubicacio u ON ps.idUbicacio = u.id
+      JOIN usuari_partit up ON p.id = up.id_partit
+      WHERE up.id_usuari = ?
+        AND p.id_usuari_creador != ?
+        AND p.estat = 'pendent'
+      ORDER BY p.data_creacio DESC;
+    `;
             connection.query(sql, [idUsuari, idUsuari], (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
             });
         });
     },
+
 
     updateEstat: (estat, resultat, idPartit, callback) => {
         const updates = [];

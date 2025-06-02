@@ -10,6 +10,7 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
 function Login() {
   const [showModal, setShowModal] = useState(false);
@@ -62,21 +63,21 @@ function Login() {
       .required("Confirma la contrasenya"),
   });
 
-
-
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     const newUser = {
       nom,
       cognom,
       edat: parseInt(edat),
-      contrasenya: password,
       correu_electronic: email,
-      confirmPassword,
     };
 
     try {
-      await registerSchema.validate(newUser, { abortEarly: false });
+      await registerSchema.validate({ ...newUser, contrasenya: password, confirmPassword }, { abortEarly: false });
+
+      const salt = bcrypt.genSaltSync(10);
+      const hashedPassword = bcrypt.hashSync(password, salt);
+      newUser.contrasenya = hashedPassword;
 
       axios.post('http://localhost:3000/usuarios', newUser)
         .then((response) => {
@@ -137,8 +138,6 @@ function Login() {
     }
   };
 
-
-
   return (
     <>
       <Container fluid className='fonsIniciSessio'>
@@ -188,7 +187,6 @@ function Login() {
           </Col>
         </Row>
       </Container>
-
 
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton className='colorPrincipal colorText'>

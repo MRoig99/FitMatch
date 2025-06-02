@@ -1,76 +1,106 @@
-import { useState } from 'react'
-import '../../App.css'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import Lateral from '../../components/lateral'
+import Button from 'react-bootstrap/Button';
+import Lateral from '../../components/lateral';
 
 function Perfil() {
-  const [showModal, setShowModal] = useState(false);
+  const [usuari, setUsuari] = useState(null);
+  const [partitsDisputatsCount, setPartitsDisputatsCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const usuariString = localStorage.getItem('usuari');
+    if (!usuariString) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const usuariObj = JSON.parse(usuariString);
+      setUsuari(usuariObj);
+
+      axios.get(`http://localhost:3000/partits/historial/${usuariObj.id}`)
+        .then(res => {
+          setPartitsDisputatsCount(res.data.length);
+          setLoading(false);
+        })
+        .catch(() => {
+          setPartitsDisputatsCount(0);
+          setLoading(false);
+        });
+    } catch {
+      setLoading(false);
+    }
+  }, []);
+
+  if (loading) {
+    return (
+      <Container fluid className="min-vh-100 d-flex p-0">
+        <Lateral />
+        <main className="flex-grow-1 d-flex justify-content-center align-items-center">
+          <h4>Carregant perfil...</h4>
+        </main>
+      </Container>
+    );
+  }
+
+  if (!usuari) {
+    return (
+      <Container fluid className="min-vh-100 d-flex p-0">
+        <Lateral />
+        <main className="flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center px-3">
+          <h5>No s'ha trobat informació de l'usuari.</h5>
+          <Button href="/login" variant="primary" className="mt-3 px-4 py-2">
+            Iniciar sessió
+          </Button>
+        </main>
+      </Container>
+    );
+  }
 
   return (
-    <>
-      <Container fluid>
-        <Row className="full-height">
-          <Lateral />   
-          <Col xs="12" md="10" className='d-flex justify-content-center align-items-center contenidorAmbFormulari border border-black'>
-            <Form className=' formulari'>
-              <Card className='rounded-5 pt-2 colorPrincipal colorText cardForm'>
-                <Card.Body>
-                  <Card.Title className='text-center fs-2 mb-4 textApp'>
-                    Crear una partida
-                  </Card.Title>
+    <Container fluid className="min-vh-100 d-flex p-0 mb-5 mb-md-0">
+      <Lateral />
+      <main className="flex-grow-1 d-flex justify-content-center align-items-center px-3 py-5">
+        <Card className="shadow-lg rounded-4 p-4 w-100" style={{ maxWidth: '900px' }}>
+          <h2 className="mb-4 text-center fw-bold display-5">
+            Perfil d'usuari
+          </h2>
 
-                  <Form.Group className="mb-3">
-                    <Form.Label className='textApp'>Esport</Form.Label>
-                    <Form.Select aria-label="Selecciona un esport">
-                      <option>Selecciona un esport</option>
-                      <option value="futbol">Futbol</option>
-                      <option value="basquet">Bàsquet</option>
-                      <option value="tenis">Tenis</option>
-                      <option value="padel">Pàdel</option>
-                      <option value="volei">Voleibol</option>
-                    </Form.Select>
-                  </Form.Group>
+          <Row className="gy-4">
+            <Col xs={12} md={6} className="border-md-end pe-md-4">
+              <h5 className="mb-3 fw-semibold">Informació personal</h5>
+              <p className="fs-5"><strong>Nom:</strong> {usuari.nom || usuari.name || 'N/D'}</p>
+              <p className="fs-5"><strong>Email:</strong> {usuari.correu_electronic || 'N/D'}</p>
+              <p className="fs-5"><strong>Edat:</strong> {usuari.edat || 'N/D'}</p>
+            </Col>
 
-                  <Form.Group className="mb-3" controlId="loginPassword">
-                    <Form.Label className='textApp'>Ubicació</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Ubicació"
-                    />
-                  </Form.Group>
+            <Col xs={12} md={6} className="ps-md-4">
+              <h5 className="mb-3 fw-semibold">Estadístiques</h5>
+              <p className="fs-5">
+                <strong>Total partits disputats:</strong> {partitsDisputatsCount}
+              </p>
+            </Col>
+          </Row>
 
-                  <Form.Group className="mb-3" controlId="loginPassword">
-                    <Form.Label className='textApp'>Nº de jugadors</Form.Label>
-                    <Form.Control
-                      type="number"
-                      placeholder="Numero de jugadors requerit"
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="loginPassword">
-                    <Form.Label className='textApp'>Preu</Form.Label>
-                    <Form.Control
-                      type="number"
-                      placeholder="Preu de la partida"
-                    />
-                  </Form.Group>
-                  <div className='d-flex justify-content-center'>
-                    <Button className='boto mt-3 w-100' type="submit">
-                      Crea
-                    </Button>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
-    </>
-  )
+          <div className="text-center mt-5">
+            <Button
+              variant="primary"
+              size="lg"
+              href="/editar-perfil"
+              className="px-5 py-3 fw-semibold rounded-pill fs-5"
+            >
+              Editar Perfil
+            </Button>
+          </div>
+        </Card>
+      </main>
+    </Container>
+  );
 }
+
 export default Perfil;
