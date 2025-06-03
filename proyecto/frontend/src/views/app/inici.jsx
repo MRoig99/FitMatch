@@ -91,7 +91,7 @@ function BuscarPartit() {
                     autoComplete="off"
                   />
                   {suggestions.length > 0 && (
-                    <ListGroup style={{ position: 'absolute', zIndex: 10, width: '100%' }}>
+                    <ListGroup>
                       {suggestions.map(ubicacio => (
                         <ListGroup.Item
                           key={ubicacio.id}

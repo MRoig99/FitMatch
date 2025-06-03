@@ -8,40 +8,50 @@ import futbolImg from '../../assets/futbol.jpg';
 import basketImg from '../../assets/basket.jpg';
 import tenisImg from '../../assets/tenis.jpg';
 
-
 function Home() {
   return (
     <>
       <Header />
 
       <main className="bg-light text-dark min-vh-100 d-flex flex-column">
-        <section className="bg-primary text-light py-5 text-center">
-          <Container>
-            <h1 className="fw-bold display-5 mb-3">
-              Connecta amb esportistes com tu i crea partits fàcilment
-            </h1>
-            <p className="lead mb-4">
-              Troba esdeveniments esportius prop de tu o crea els teus propis amb FitMatch. Tant si ets expert com si acabes de començar, sempre hi ha un lloc per a tu.
-            </p>
-            <Button variant="success" size="lg" className="rounded-pill px-4 fw-semibold btn-fitmatch">
-              Comença ara!
-            </Button>
-          </Container>
-        </section>
 
-        <section className="py-5">
+        <div className="bg-primary text-light py-5 text-center">
           <Container>
-            <h2 className="fw-bold mb-4 text-center text-primary">Què és FitMatch?</h2>
-            <p className="fs-5 text-center mx-auto">
-              FitMatch és la plataforma definitiva per a esportistes que volen connectar, organitzar i gaudir d'esdeveniments esportius de manera fàcil i flexible. Tant si busques unir-te a un partit de futbol, un torneig de bàsquet o provar esports nous, FitMatch t'ofereix totes les eines perquè puguis fer-ho sense complicacions.
-            </p>
-            <p className="fs-5 text-center mx-auto">
-              La nostra missió és fomentar una comunitat esportiva activa i diversa, on qualsevol persona pugui trobar un espai per practicar i gaudir de l'esport en companyia.
-            </p>
+            <Row className="justify-content-center">
+              <Col xs={12} md={10} lg={8}>
+                <h1 className="fw-bold display-5 mb-3">
+                  Connecta amb esportistes com tu i crea partits fàcilment
+                </h1>
+                <p className="lead mb-4">
+                  Troba esdeveniments esportius prop de tu o crea els teus propis amb FitMatch. Tant si ets expert com si acabes de començar, sempre hi ha un lloc per a tu.
+                </p>
+                <div className="d-flex justify-content-center">
+                  <Button variant="success" size="lg" className="rounded-pill px-4 fw-semibold btn-fitmatch">
+                    Comença ara!
+                  </Button>
+                </div>
+              </Col>
+            </Row>
           </Container>
-        </section>
+        </div>
 
-        <section className="py-5 bg-white">
+        <div className="py-5">
+          <Container>
+            <Row className="justify-content-center">
+              <Col xs={12} md={10} lg={8} className="text-center">
+                <h2 className="fw-bold mb-4 text-primary">Què és FitMatch?</h2>
+                <p className="fs-5 mx-auto mb-3">
+                  FitMatch és la plataforma definitiva per a esportistes que volen connectar, organitzar i gaudir d'esdeveniments esportius de manera fàcil i flexible. Tant si busques unir-te a un partit de futbol, un torneig de bàsquet o provar esports nous, FitMatch t'ofereix totes les eines perquè puguis fer-ho sense complicacions.
+                </p>
+                <p className="fs-5 mx-auto">
+                  La nostra missió és fomentar una comunitat esportiva activa i diversa, on qualsevol persona pugui trobar un espai per practicar i gaudir de l'esport en companyia.
+                </p>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+
+        <div className="py-5 bg-white">
           <Container>
             <h2 className="fw-bold mb-5 text-center text-primary">Beneficis d'utilitzar FitMatch</h2>
             <Row className="gy-4 justify-content-center">
@@ -74,9 +84,9 @@ function Home() {
               </Col>
             </Row>
           </Container>
-        </section>
+        </div>
 
-        <section className="py-5">
+        <div className="py-5">
           <Container>
             <h2 className="fw-bold mb-5 text-center text-primary">Com funciona FitMatch?</h2>
             <Row className="gy-4 justify-content-center">
@@ -100,9 +110,9 @@ function Home() {
               </Col>
             </Row>
           </Container>
-        </section>
+        </div>
 
-        <section className="py-5 bg-info bg-opacity-10">
+        <div className="py-5 bg-info bg-opacity-10">
           <Container>
             <h2 className="text-center text-success fw-bold mb-5">Esports Destacats</h2>
             <Row xs={1} sm={2} md={4} className="g-4 justify-content-center">
@@ -113,7 +123,7 @@ function Home() {
                     src={futbolImg}
                     alt="Futbol"
                     className="card-img-top"
-                    
+
                   />
                   <div className="card-body p-3">
                     <h5 className="card-title text-dark fw-semibold">Futbol</h5>
@@ -130,7 +140,7 @@ function Home() {
                     src={basketImg}
                     alt="Bàsquet"
                     className="card-img-top"
-                    
+
                   />
                   <div className="card-body p-3">
                     <h5 className="card-title text-dark fw-semibold">Bàsquet</h5>
@@ -147,7 +157,7 @@ function Home() {
                     src={paddelImg}
                     alt="Pàdel"
                     className="card-img-top"
-                    
+
                   />
                   <div className="card-body p-3">
                     <h5 className="card-title text-dark fw-semibold">Pàdel</h5>
@@ -164,7 +174,7 @@ function Home() {
                     src={tenisImg}
                     alt="Tenis"
                     className="card-img-top"
-                    
+
                   />
                   <div className="card-body p-3">
                     <h5 className="card-title text-dark fw-semibold">Tenis</h5>
@@ -177,10 +187,9 @@ function Home() {
 
             </Row>
           </Container>
-        </section>
+        </div>
 
-
-        <section className="py-5 bg-white">
+        <div className="py-5 bg-white">
           <Container>
             <h2 className="fw-bold mb-5 text-center text-primary">Opinions dels usuaris</h2>
             <Row className="gy-4 justify-content-center">
@@ -214,29 +223,32 @@ function Home() {
 
             </Row>
           </Container>
-        </section>
+        </div>
 
-
-        <section className="py-5">
+        <div className="py-5">
           <Container>
-            <h2 className="text-center fw-bold mb-3">Uneix-te a la comunitat FitMatch</h2>
-            <p className="text-center text-secondary mb-4">
-              Rep novetats, ofertes i esdeveniments exclusius directament al teu correu.
-            </p>
-            <Form>
-              <Row className="g-2 justify-content-center">
-                <Col xs={8}>
-                  <Form.Control type="email" placeholder="El teu correu electrònic" />
-                </Col>
-                <Col xs={4}>
-                  <Button type="submit" variant="success" className="w-100 fw-semibold btn-fitmatch">
-                    Subscriu-te
-                  </Button>
-                </Col>
-              </Row>
-            </Form>
+            <Row className="justify-content-center">
+              <Col xs={12} md={8} lg={6} className="text-center">
+                <h2 className="fw-bold mb-3">Uneix-te a la comunitat FitMatch</h2>
+                <p className="text-secondary mb-4">
+                  Rep novetats, ofertes i esdeveniments exclusius directament al teu correu.
+                </p>
+                <Form>
+                  <Row className="g-2 justify-content-center">
+                    <Col xs={8}>
+                      <Form.Control type="email" placeholder="El teu correu electrònic" />
+                    </Col>
+                    <Col xs={4}>
+                      <Button type="submit" variant="success" className="w-100 fw-semibold btn-fitmatch">
+                        Subscriu-te
+                      </Button>
+                    </Col>
+                  </Row>
+                </Form>
+              </Col>
+            </Row>
           </Container>
-        </section>
+        </div>
       </main>
 
       <Footer />
