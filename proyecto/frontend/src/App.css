@@ -164,6 +164,30 @@ body{
   background-color: rgba(0, 0, 0, 0.7);
 }
 
+.btn-fitmatch {
+  background-color: #077A7D;
+  border: none;
+  transition: background-color 0.3s ease;
+  border-radius: 50px;
+}
+
+.btn-fitmatch:hover,
+.btn-fitmatch:focus {
+  background-color: #7AE2CF;
+  color: #06202B;
+  box-shadow: 0 0 8px rgba(122, 226, 207, 0.7);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.card-fitmatch:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
 
 
 @media (max-width: 575.98px) { 
