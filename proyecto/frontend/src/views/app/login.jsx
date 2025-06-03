@@ -79,7 +79,7 @@ function Login() {
       const hashedPassword = bcrypt.hashSync(password, salt);
       newUser.contrasenya = hashedPassword;
 
-      axios.post('http://localhost:3000/usuarios', newUser)
+      axios.post('https://api.alu14.daw.iesevalorpego.es/usuarios', newUser)
         .then((response) => {
           setSuccess("Registre completat amb èxit!");
           setErrors({});
@@ -116,7 +116,7 @@ function Login() {
     try {
       await loginSchema.validate(credentials, { abortEarly: false });
 
-      axios.post('http://localhost:3000/usuarios/login', credentials)
+      axios.post('https://api.alu14.daw.iesevalorpego.es/usuarios/login', credentials)
         .then((response) => {
           console.log("Sessió iniciada:", response.data);
           localStorage.setItem('usuari', JSON.stringify(response.data.usuari));

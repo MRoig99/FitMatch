@@ -6,7 +6,6 @@ import '../App.css';
 
 const Footer = () => {
   return (
-    
       <Container fluid className='headerifooter text-white'>
         <Row className='pt-4'>
           <Col md="4" className='m-0 mt-4 p-0'>

@@ -23,7 +23,7 @@ function Perfil() {
       const usuariObj = JSON.parse(usuariString);
       setUsuari(usuariObj);
 
-      axios.get(`http://localhost:3000/partits/historial/${usuariObj.id}`)
+      axios.get(`https://api.alu14.daw.iesevalorpego.es/partits/historial/${usuariObj.id}`)
         .then(res => {
           setPartitsDisputatsCount(res.data.length);
           setLoading(false);

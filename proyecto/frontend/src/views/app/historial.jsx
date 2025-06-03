@@ -33,7 +33,6 @@ function Historial() {
     });
   };
 
-  // 1) Llegir usuariId del localStorage
   useEffect(() => {
     const usuariString = localStorage.getItem('usuari');
     if (usuariString) {
@@ -43,62 +42,60 @@ function Historial() {
     }
   }, []);
 
-  // 2) Quan canvia tabActivo o usuariId → carregar dades
   useEffect(() => {
     if (!usuariId) return;
     setPage(1);
 
     if (tabActivo === 'disputados') {
       axios
-        .get(`http://localhost:3000/partits/historial/${usuariId}`)
+        .get(`https://api.alu14.daw.iesevalorpego.es/partits/historial/${usuariId}`)
         .then((res) => setPartidosDisputados(res.data))
         .catch(() => setPartidosDisputados([]));
     } else {
       axios
-        .get(`http://localhost:3000/partits/mis-partidos/${usuariId}`)
+        .get(`https://api.alu14.daw.iesevalorpego.es/partits/mis-partidos/${usuariId}`)
         .then((res) => setPartidosCreados(res.data))
         .catch(() => setPartidosCreados([]));
     }
   }, [usuariId, tabActivo]);
 
-  // 3) Cancel·lar partit (creador) o donar‐se de baixa (participant)
   const cancelarPartido = async (p) => {
     try {
       if (p.id_usuari_creador === usuariId) {
         const { data: [reserva] } = await axios.get(
-          `http://localhost:3000/reserves/partit/${p.id}`
+          `https://api.alu14.daw.iesevalorpego.es/reserves/partit/${p.id}`
         );
         if (!reserva) throw new Error('Reserva no trobada');
 
         await axios.patch(
-          `http://localhost:3000/reserves/${reserva.id}`,
+          `https://api.alu14.daw.iesevalorpego.es/reserves/${reserva.id}`,
           { estat: 'cancelada' }
         );
         await axios.patch(
-          `http://localhost:3000/partits/${p.id}`,
+          `https://api.alu14.daw.iesevalorpego.es/partits/${p.id}`,
           { estat: 'cancelado' }
         );
         if (p.id_pista) {
           await axios.patch(
-            `http://localhost:3000/pistas/${p.id_pista}`,
+            `https://api.alu14.daw.iesevalorpego.es/pistas/${p.id_pista}`,
             { id: p.id_pista, disponibilitat: true }
           );
         }
         alert('Partit cancel·lat correctament i pista disponible.');
         const { data } = await axios.get(
-          `http://localhost:3000/partits/mis-partidos/${usuariId}`
+          `https://api.alu14.daw.iesevalorpego.es/partits/mis-partidos/${usuariId}`
         );
         setPartidosCreados(data);
       } else {
-        await axios.delete('http://localhost:3000/usuariPartit', {
+        await axios.delete('https://api.alu14.daw.iesevalorpego.es/usuariPartit', {
           params: { id_usuari: usuariId, id_partit: p.id },
         });
         await axios.post(
-          `http://localhost:3000/partits/${p.id}/decrementParticipants`
+          `https://api.alu14.daw.iesevalorpego.es/partits/${p.id}/decrementParticipants`
         );
         alert('T’has donat de baixa del partit.');
         const { data } = await axios.get(
-          `http://localhost:3000/partits/mis-partidos/${usuariId}`
+          `https://api.alu14.daw.iesevalorpego.es/partits/mis-partidos/${usuariId}`
         );
         setPartidosCreados(data);
       }
@@ -108,27 +105,25 @@ function Historial() {
     }
   };
 
-  // 4) Obrir modal per introduir resultat
   const abrirModalResultado = (p) => {
     setPartitSeleccionado(p);
     setResultatInput('');
     setShowModalResultat(true);
   };
 
-  // 5) Confirmar resultat (només creador)
   const confirmarResultado = async () => {
     if (!resultatInput.trim()) {
       return alert('Introdueix un resultat vàlid.');
     }
     try {
       await axios.patch(
-        `http://localhost:3000/partits/${partitSeleccionado.id}`,
+        `https://api.alu14.daw.iesevalorpego.es/partits/${partitSeleccionado.id}`,
         { resultat: resultatInput.trim(), estat: 'finalizado' }
       );
       alert('Resultat guardat correctament.');
       setShowModalResultat(false);
       const { data } = await axios.get(
-        `http://localhost:3000/partits/mis-partidos/${usuariId}`
+        `https://api.alu14.daw.iesevalorpego.es/partits/mis-partidos/${usuariId}`
       );
       setPartidosCreados(data);
     } catch {
@@ -165,7 +160,6 @@ function Historial() {
             </Button>
           </div>
 
-          {/* Listado paginado */}
           <Row className="gy-3">
             {paged.length === 0 && (
               <Col xs={12}>
@@ -191,7 +185,6 @@ function Historial() {
                   <Card className="w-100 shadow-sm">
                     <Card.Body className="d-flex flex-column flex-md-row justify-content-between">
                       <div>
-                        {/* Mostrem ubicació, pista i esport en ambdues pestanyes */}
                         <p><strong>Ubicació:</strong> {p.ubicacio}</p>
                         <p><strong>Pista:</strong> {p.pista}</p>
                         <p><strong>Esport:</strong> {p.deporte}</p>

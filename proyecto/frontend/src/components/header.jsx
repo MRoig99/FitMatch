@@ -1,4 +1,3 @@
-// src/components/Header.jsx
 import React from 'react';
 import { Navbar, Nav, Container, NavDropdown, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // Para navegación interna

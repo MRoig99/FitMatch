@@ -22,14 +22,14 @@ function Inicio() {
   const [usuariId, setUsuariId] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/esports')
+    axios.get('https://api.alu14.daw.iesevalorpego.es/esports')
       .then(response => setEsports(response.data))
       .catch(error => console.error('Error carregant esports:', error));
   }, []);
 
   useEffect(() => {
     if (busqueda.length >= 2) {
-      axios.get('http://localhost:3000/ubicacions')
+      axios.get('https://api.alu14.daw.iesevalorpego.es/ubicacions')
         .then(res => {
           const filtrades = res.data.filter(u =>
             u.ciutat.toLowerCase().includes(busqueda.toLowerCase())

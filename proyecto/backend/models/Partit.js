@@ -3,7 +3,7 @@ const connection = require('../db');
 // Crear el modelo para la tabla Partit
 const Partit = {
     getAll: (callback) => {
-        connection.query('SELECT * FROM Partit', (err, results) => {
+        connection.query('SELECT * FROM partit', (err, results) => {
             if (err) {
                 return callback(err, null);
             }

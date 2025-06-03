@@ -15,16 +15,15 @@ const ModalBuscarPartits = ({ show, onHide, ciutat, idEsport, usuariId }) => {
   useEffect(() => {
     if (show && ciutat && idEsport && dataSeleccionada) {
       axios
-        .get('http://localhost:3000/pistas/reservades', {
+        .get('https://api.alu14.daw.iesevalorpego.es/pistas/reservades', {
           params: { ciutat, idEsport, data: dataSeleccionada },
         })
         .then((res) => {
           const arrPistes = res.data;
 
-          // Cridem per obtenir els partits associats a cada pista
           const promeses = arrPistes.map((pista) =>
             axios
-              .get(`http://localhost:3000/partits/pista/${pista.id}`)
+              .get(`https://api.alu14.daw.iesevalorpego.es/partits/pista/${pista.id}`)
               .then((resPartit) => {
                 const partit = resPartit.data;
                 return {
@@ -43,19 +42,16 @@ const ModalBuscarPartits = ({ show, onHide, ciutat, idEsport, usuariId }) => {
           );
 
           Promise.all(promeses).then((arr) => {
-            // Filtrar només les pistes amb partits actius (no finalitzats ni cancel·lats)
             const pistesActives = arr.filter(
               ({ estat }) => estat !== 'finalizado' && estat !== 'cancelado'
             );
 
-            // Actualitzar el map de participants
             const nouMap = {};
             pistesActives.forEach(({ id_pista, participants }) => {
               nouMap[id_pista] = participants;
             });
             setParticipantsMap(nouMap);
 
-            // Filtrar la llista original de pistes per mostrar només les actives
             const pistesFiltrades = arrPistes.filter((pista) =>
               pistesActives.some((activa) => activa.id_pista === pista.id)
             );
@@ -91,7 +87,7 @@ const ModalBuscarPartits = ({ show, onHide, ciutat, idEsport, usuariId }) => {
     }
     try {
       const { data: partit } = await axios.get(
-        `http://localhost:3000/partits/pista/${pistaSeleccionada.id}`
+        `https://api.alu14.daw.iesevalorpego.es/partits/pista/${pistaSeleccionada.id}`
       );
       const idPartit = partit.id;
 
@@ -102,7 +98,7 @@ const ModalBuscarPartits = ({ show, onHide, ciutat, idEsport, usuariId }) => {
       }
 
       const { data: up } = await axios.get(
-        'http://localhost:3000/usuariPartit/filter',
+        'https://api.alu14.daw.iesevalorpego.es/usuariPartit/filter',
         { params: { id_usuari: usuariId, id_partit: idPartit } }
       );
       if (up.length) {
@@ -111,7 +107,7 @@ const ModalBuscarPartits = ({ show, onHide, ciutat, idEsport, usuariId }) => {
         return;
       }
 
-      await axios.post('http://localhost:3000/reserves', {
+      await axios.post('https://api.alu14.daw.iesevalorpego.es/reserves', {
         id_usuari: usuariId,
         id_partit: idPartit,
         id_pista: pistaSeleccionada.id,
@@ -120,13 +116,13 @@ const ModalBuscarPartits = ({ show, onHide, ciutat, idEsport, usuariId }) => {
         id_estat_reserva: 1,
       });
 
-      await axios.post('http://localhost:3000/usuariPartit', {
+      await axios.post('https://api.alu14.daw.iesevalorpego.es/usuariPartit', {
         id_usuari: usuariId,
         id_partit: idPartit,
       });
 
       await axios.post(
-        `http://localhost:3000/partits/${idPartit}/incrementParticipants`
+        `https://api.alu14.daw.iesevalorpego.es/partits/${idPartit}/incrementParticipants`
       );
 
       alert(

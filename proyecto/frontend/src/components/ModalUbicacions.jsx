@@ -11,22 +11,20 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
   const [pistaSeleccionada, setPistaSeleccionada] = useState(null);
   const [showConfirmarReserva, setShowConfirmarReserva] = useState(false);
 
-  // Restableix selecció quan canvies data
   useEffect(() => {
     setShowConfirmarReserva(false);
     setPistaSeleccionada(null);
   }, [dataSeleccionada]);
 
-  // Carrega ubicacions + pistes disponibles
   useEffect(() => {
     if (show && ciutat && idEsport && dataSeleccionada) {
-      axios.get('http://localhost:3000/ubicacions')
+      axios.get('https://api.alu14.daw.iesevalorpego.es/ubicacions')
         .then(res => {
           const filtrades = res.data.filter(u => u.ciutat.toLowerCase() === ciutat.toLowerCase());
           return Promise.all(
             filtrades.map(async ubicacio => {
               const { data: pistes } = await axios.get(
-                'http://localhost:3000/pistas/disponibles',
+                'https://api.alu14.daw.iesevalorpego.es/pistas/disponibles',
                 {
                   params: {
                     idUbicacio: ubicacio.id,
@@ -61,7 +59,7 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
     }
 
     let idPartitCreat;
-    axios.post('http://localhost:3000/partits', {
+    axios.post('https://api.alu14.daw.iesevalorpego.es/partits', {
       id_usuari_creador: usuariId,
       id_esport: idEsport,
       id_pista: pistaSeleccionada.id,
@@ -73,12 +71,12 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
     })
     .then(resPartit => {
       idPartitCreat = resPartit.data.id;
-      return axios.patch(`http://localhost:3000/pistas/${pistaSeleccionada.id}`, {
+      return axios.patch(`https://api.alu14.daw.iesevalorpego.es/pistas/${pistaSeleccionada.id}`, {
         disponibilitat: false
       });
     })
     .then(() => {
-      return axios.post('http://localhost:3000/reserves', {
+      return axios.post('https://api.alu14.daw.iesevalorpego.es/reserves', {
         id_usuari: usuariId,
         id_partit: idPartitCreat,
         id_pista: pistaSeleccionada.id,
@@ -88,7 +86,7 @@ const ModalUbicacions = ({ show, onHide, ciutat, idEsport, usuariId }) => {
       });
     })
     .then(() => {
-      return axios.post('http://localhost:3000/usuariPartit', {
+      return axios.post('https://api.alu14.daw.iesevalorpego.es/usuariPartit', {
         id_usuari: usuariId,
         id_partit: idPartitCreat
       });

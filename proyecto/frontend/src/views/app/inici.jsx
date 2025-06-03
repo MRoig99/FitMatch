@@ -28,14 +28,14 @@ function BuscarPartit() {
   }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/esports')
+    axios.get('https://api.alu14.daw.iesevalorpego.es/esports')
       .then(res => setEsports(res.data))
       .catch(err => console.error('Error carregant esports:', err));
   }, []);
 
   useEffect(() => {
     if (busqueda.length >= 2) {
-      axios.get('http://localhost:3000/ubicacions')
+      axios.get('https://api.alu14.daw.iesevalorpego.es/ubicacions')
         .then(res => {
           const filtrades = res.data.filter(u =>
             u.ciutat.toLowerCase().includes(busqueda.toLowerCase())
