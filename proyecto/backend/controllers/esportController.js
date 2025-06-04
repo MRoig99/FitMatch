@@ -1,7 +1,6 @@
 const Esport = require('../models/Esport');
 
 const esportController = {
-    // GET /esports - obtindre tots els esports
     getAll: (req, res) => {
         Esport.getAll((err, esports) => {
             if (err) {
@@ -11,7 +10,6 @@ const esportController = {
         });
     },
 
-    // GET /esports/:id - obtindre un esport per ID
     getById: (req, res) => {
         const id = req.params.id;
 
@@ -25,8 +23,7 @@ const esportController = {
             res.json(esport);
         });
     },
-
-    // POST /esports - crear un nou esport
+    
     create: (req, res) => {
         const nouEsport = req.body;
 

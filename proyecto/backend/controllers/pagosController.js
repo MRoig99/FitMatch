@@ -1,7 +1,6 @@
 const Pagos = require('../models/Pagos');
 
 const pagosController = {
-    // GET /pagaments - obtindre tots els pagaments
     getAll: (req, res) => {
         Pagos.getAll((err, pagaments) => {
             if (err) {
@@ -11,7 +10,6 @@ const pagosController = {
         });
     },
 
-    // GET /pagaments/:id - obtindre un pagament per ID
     getById: (req, res) => {
         const id = req.params.id;
 
@@ -26,7 +24,6 @@ const pagosController = {
         });
     },
 
-    // POST /pagaments - crear un nou pagament
     create: (req, res) => {
         const nouPagament = req.body;
 

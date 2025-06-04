@@ -10,10 +10,9 @@ app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
   }));
-// Middleware para manejar JSON
+
 app.use(express.json());
 
-// Importar las rutas
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const partitRoutes = require('./routes/partitRoutes');
 const reservaRoutes = require('./routes/reservaRoutes');
@@ -23,8 +22,6 @@ const estatPagamentRoutes = require('./routes/estatPagamentRoutes');
 const equipRoutes = require('./routes/equipRoutes');
 const ubicacioRoutes = require('./routes/ubicacioRoutes');
 const esportRoutes = require('./routes/esportRoutes');
-const estatReservaRoutes = require('./routes/estatReservaRoutes');
-const estatPartitRoutes = require('./routes/estatPartitRoutes');
 const pistaRoutes = require('./routes/pistaRoutes');
 const usuariPartitRoutes = require ('./routes/usuariPartitRoutes')
 
@@ -34,11 +31,8 @@ app.use('/reserves', reservaRoutes);
 app.use('/historial', historialRoutes);
 app.use('/pagos', pagosRoutes);
 app.use('/estat_pagament', estatPagamentRoutes);
-app.use('/equips', equipRoutes);
 app.use('/ubicacions', ubicacioRoutes);
 app.use('/esports', esportRoutes);
-app.use('/estat_reserva', estatReservaRoutes);
-app.use('/estat_partit', estatPartitRoutes);
 app.use('/pistas', pistaRoutes);
 app.use('/usuariPartit', usuariPartitRoutes)
 

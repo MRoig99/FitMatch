@@ -4,7 +4,6 @@ import '../../App.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Lateral from '../../components/lateral';
@@ -14,7 +13,6 @@ import ModalUbicacions from '../../components/ModalUbicacions';
 function Inicio() {
   const [showModal, setShowModal] = useState(false);
   const [esports, setEsports] = useState([]);
-  const [ubicacions, setUbicacions] = useState([]);
   const [busqueda, setBusqueda] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [esportSeleccionat, setEsportSeleccionat] = useState(null);

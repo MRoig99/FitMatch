@@ -1,4 +1,3 @@
-import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 const ModalConfirmarReserva = ({ show, onHide, pista, data, hora, onConfirmar }) => {

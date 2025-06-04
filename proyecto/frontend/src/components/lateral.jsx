@@ -1,4 +1,3 @@
-import React from 'react';
 import { BsSearch, BsPlusCircle, BsClockHistory, BsPerson, BsBoxArrowRight } from 'react-icons/bs';
 import { Col } from 'react-bootstrap';
 import ListGroup from 'react-bootstrap/ListGroup';

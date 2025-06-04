@@ -4,7 +4,7 @@ const Pista = {
     getDisponibles: (idUbicacio, idEsport, data, callback) => {
         const query = `
             SELECT p.id, p.nom, p.preu_total, p.data, p.disponibilitat, p.hora
-        FROM Pista p
+        FROM pista p
         WHERE p.idUbicacio = ? AND p.idEsport = ? AND p.data = ? AND p.disponibilitat = TRUE
         `;
         connection.query(query, [idUbicacio, idEsport, data, data], (err, results) => {
@@ -29,9 +29,9 @@ const Pista = {
         const query = `
       SELECT DISTINCT p.id, p.nom, p.preu_total, p.jugadors_necessaris, p.hora,
              u.nom AS nom_ubicacio, u.direccio
-      FROM Pista p
-      JOIN Ubicacio u ON p.idUbicacio = u.id
-      JOIN Reserva r ON r.id_pista = p.id
+      FROM pista p
+      JOIN ubicacio u ON p.idUbicacio = u.id
+      JOIN reserva r ON r.id_pista = p.id
       WHERE p.disponibilitat = FALSE
         AND p.idEsport = ?
         AND u.ciutat = ?

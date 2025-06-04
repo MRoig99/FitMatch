@@ -1,7 +1,6 @@
 const Ubicacio = require('../models/Ubicacio');
 
 const ubicacioController = {
-    // GET /ubicacions - obtindre totes les ubicacions
     getAll: (req, res) => {
         Ubicacio.getAll((err, ubicacions) => {
             if (err) {
@@ -11,7 +10,6 @@ const ubicacioController = {
         });
     },
 
-    // GET /ubicacions/:id - obtindre una ubicació per ID
     getById: (req, res) => {
         const id = req.params.id;
 
@@ -26,7 +24,6 @@ const ubicacioController = {
         });
     },
 
-    // POST /ubicacions - crear una nova ubicació
     create: (req, res) => {
         const novaUbicacio = req.body;
 

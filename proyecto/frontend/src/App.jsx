@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Header from './components/header';
-import Login from './views/app/login';  // Importar desde la carpeta 'views'
-import Inici from './views/app/inici'; // Importar desde la carpeta 'views'
-import Home from './views/corporativa/home';  // Importar desde la carpeta 'views'
+import Login from './views/app/login'; 
+import Inici from './views/app/inici'; 
+import Home from './views/corporativa/home';  
 import RutaProtegida from './components/rutaProtegida';
 import Crea from './views/app/crea'
 import Historial from './views/app/historial'

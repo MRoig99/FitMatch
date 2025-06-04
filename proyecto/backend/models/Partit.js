@@ -1,6 +1,5 @@
 const connection = require('../db');
 
-// Crear el modelo para la tabla Partit
 const Partit = {
     getAll: (callback) => {
         connection.query('SELECT * FROM partit', (err, results) => {
@@ -12,7 +11,7 @@ const Partit = {
     },
 
     getById: (id, callback) => {
-        connection.query('SELECT * FROM Partit WHERE id = ?', [id], (err, results) => {
+        connection.query('SELECT * FROM partit WHERE id = ?', [id], (err, results) => {
             if (err) {
                 return callback(err, null);
             }
@@ -127,7 +126,6 @@ const Partit = {
     updateEstat: (estat, resultat, idPartit, callback) => {
         const updates = [];
         const values = [];
-        console.log("HOLAA");
 
         if (estat !== undefined) {
             updates.push('estat = ?');

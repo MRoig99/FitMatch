@@ -1,6 +1,4 @@
-import React from 'react';
 import { Navbar, Nav, Container, NavDropdown, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // Para navegación interna
 import logo from '../assets/logo.png';
 
 const Header = () => {
@@ -14,7 +12,7 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto ">        
               <Nav.Link className='enllaçNav' href="#">Inici</Nav.Link>
-              <Nav.Link className='enllaçNav' href="#">Producte</Nav.Link>
+              <Nav.Link className='enllaçNav' href="/producte">Producte</Nav.Link>
               <Nav.Link className='enllaçNav' href="#">Resenyes</Nav.Link>
               <Nav.Link className='enllaçNav' href="#">Sobre Nosaltres</Nav.Link>
               <Nav.Link className='enllaçNav' href="#">Contacta</Nav.Link>

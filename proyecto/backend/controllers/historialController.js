@@ -1,7 +1,6 @@
 const Historial = require('../models/Historial');
 
 const historialController = {
-    // GET /historial - obtindre tots els registres d'historial
     getAll: (req, res) => {
         Historial.getAll((err, histo) => {
             if (err) {
@@ -11,7 +10,6 @@ const historialController = {
         });
     },
 
-    // GET /historial/:id - obtindre un registre d'historial per ID
     getById: (req, res) => {
         const id = req.params.id;
 
@@ -26,7 +24,6 @@ const historialController = {
         });
     },
 
-    // POST /historial - crear un nou registre d'historial
     create: (req, res) => {
         const nouHistorial = req.body;
 

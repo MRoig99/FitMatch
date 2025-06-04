@@ -1,7 +1,6 @@
 const Estat_pagament = require('../models/Estat_pagament');
 
 const estatPagamentController = {
-    // GET /estat-pagaments - obtindre tots els estats de pagament
     getAll: (req, res) => {
         Estat_pagament.getAll((err, estats) => {
             if (err) {
@@ -11,7 +10,6 @@ const estatPagamentController = {
         });
     },
 
-    // GET /estat-pagaments/:id - obtindre un estat de pagament per ID
     getById: (req, res) => {
         const id = req.params.id;
 
@@ -26,7 +24,6 @@ const estatPagamentController = {
         });
     },
 
-    // POST /estat-pagaments - crear un nou estat de pagament
     create: (req, res) => {
         const nouEstat = req.body;
 
